@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>William Metal - إدارة المبيعات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="main.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #1e40af;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #1e40af;
+            border-radius: 1px;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 95%;
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+        
+        .invoice-item {
+            transition: all 0.3s ease;
+        }
+        
+        .invoice-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .product-selector {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .search-input {
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .sale-row {
+            transition: all 0.3s ease;
+        }
+        
+        .sale-row:hover {
+            background-color: #f8fafc;
+            transform: translateX(-5px);
+        }
+        
+        .invoice-preview {
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-40 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-slate-800">William Metal</h1>
+                    </div>
+                    <div class="hidden md:block mr-10">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="index.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="index.html">
+                                <i class="fas fa-tachometer-alt ml-2"></i>لوحة التحكم
+                            </a>
+                            <a href="products.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="products.html">
+                                <i class="fas fa-boxes ml-2"></i>المنتجات
+                            </a>
+                            <a href="inventory.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="inventory.html">
+                                <i class="fas fa-warehouse ml-2"></i>المخزون
+                            </a>
+                            <a href="sales.html" class="nav-link active px-3 py-2 text-sm font-medium text-slate-700" data-nav="sales.html">
+                                <i class="fas fa-shopping-cart ml-2"></i>المبيعات
+                            </a>
+                            <a href="purchases.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="purchases.html">
+                                <i class="fas fa-truck ml-2"></i>المشتريات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="mr-4">
+                        <span class="text-sm text-slate-600" data-user-info="name">مدير النظام</span>
+                    </div>
+                    <button class="p-2 text-slate-600 hover:text-slate-800" data-action="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">إدارة المبيعات</h2>
+                    <p class="mt-1 text-sm text-slate-600">إنشاء الفواتير ومتابعة المبيعات</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex space-x-3">
+                    <button onclick="openSaleModal()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-plus ml-2"></i>فاتورة جديدة
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Sales Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 no-print">
+            <div class="glass-card rounded-xl p-6 fade-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">إجمالي المبيعات اليوم</p>
+                        <p class="text-3xl font-bold text-slate-900" id="todaySales">0</p>
+                    </div>
+                    <div class="p-3 bg-green-100 rounded-full">
+                        <i class="fas fa-calendar-day text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-xl p-6 fade-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">إجمالي المبيعات</p>
+                        <p class="text-3xl font-bold text-slate-900" id="totalSales">0</p>
+                    </div>
+                    <div class="p-3 bg-blue-100 rounded-full">
+                        <i class="fas fa-shopping-cart text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-xl p-6 fade-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">عدد الفواتير</p>
+                        <p class="text-3xl font-bold text-slate-900" id="totalInvoices">0</p>
+                    </div>
+                    <div class="p-3 bg-purple-100 rounded-full">
+                        <i class="fas fa-file-invoice text-purple-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="glass-card rounded-xl p-6 mb-8 no-print fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">البحث</label>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="ابحث عن فاتورة أو عميل..." 
+                               class="search-input w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">من التاريخ</label>
+                    <input type="date" id="dateFrom" 
+                           class="w-full py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">إلى التاريخ</label>
+                    <input type="date" id="dateTo" 
+                           class="w-full py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="flex items-end">
+                    <button onclick="exportSales()" class="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-download ml-2"></i>تصدير
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Table -->
+        <div class="glass-card rounded-xl overflow-hidden no-print fade-in">
+            <div class="px-6 py-4 border-b border-slate-200">
+                <h3 class="text-lg font-semibold text-slate-900">قائمة الفواتير</h3>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">رقم الفاتورة</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">العميل</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">التاريخ</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">عدد العناصر</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">الإجمالي</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">الحالة</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="salesTableBody" class="bg-white divide-y divide-slate-200">
+                        <!-- Table rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-12 no-print">
+            <i class="fas fa-file-invoice text-6xl text-slate-300 mb-4"></i>
+            <h3 class="text-lg font-medium text-slate-900 mb-2">لا توجد فواتير</h3>
+            <p class="text-slate-600 mb-4">ابدأ بإنشاء أول فاتورة لك</p>
+            <button onclick="openSaleModal()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                <i class="fas fa-plus ml-2"></i>إنشاء فاتورة
+            </button>
+        </div>
+    </main>
+
+    <!-- Sale Modal -->
+    <div id="saleModal" class="modal no-print">
+        <div class="modal-content">
+            <div class="p-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-slate-900">فاتورة جديدة</h3>
+                    <button onclick="closeSaleModal()" class="text-slate-400 hover:text-slate-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <form id="saleForm" class="p-6">
+                <!-- Customer Information -->
+                <div class="mb-6">
+                    <h4 class="text-md font-medium text-slate-900 mb-4">معلومات العميل</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">اسم العميل</label>
+                            <input type="text" id="customerName" required 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">رقم الهاتف</label>
+                            <input type="tel" id="customerPhone" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">العنوان</label>
+                        <textarea id="customerAddress" rows="2" 
+                                  class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    </div>
+                </div>
+
+                <!-- Invoice Items -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-md font-medium text-slate-900">عناصر الفاتورة</h4>
+                        <button type="button" onclick="openProductSelector()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                            <i class="fas fa-plus ml-1"></i>إضافة عنصر
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-3" id="invoiceItems">
+                        <!-- Invoice items will be added here -->
+                    </div>
+                    
+                    <!-- Product Selector Modal -->
+                    <div id="productSelectorModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50">
+                        <div class="flex items-center justify-center min-h-screen p-4">
+                            <div class="bg-white rounded-lg max-w-2xl w-full max-h-96 overflow-hidden">
+                                <div class="p-4 border-b">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-lg font-semibold">اختر المنتج</h3>
+                                        <button onclick="closeProductSelector()" class="text-slate-400 hover:text-slate-600">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="mt-3">
+                                        <input type="text" id="productSearch" placeholder="ابحث عن منتج..." 
+                                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                </div>
+                                <div class="p-4 product-selector" id="productList">
+                                    <!-- Product list will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice Summary -->
+                <div class="border-t border-slate-200 pt-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">طريقة الدفع</label>
+                            <select id="paymentMethod" required 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="CASH">نقداً</option>
+                                <option value="CREDIT">آجل</option>
+                                <option value="CHECK">شيك</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">الضريبة (%)</label>
+                            <input type="number" id="taxRate" value="10" min="0" max="100" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-50 rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-medium text-slate-700">المجموع الفرعي:</span>
+                            <span class="text-sm font-semibold text-slate-900" id="subtotal">0.00 درهم</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-medium text-slate-700">الضريبة:</span>
+                            <span class="text-sm font-semibold text-slate-900" id="taxAmount">0.00 درهم</span>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-slate-200">
+                            <span class="text-lg font-semibold text-slate-900">الإجمالي:</span>
+                            <span class="text-lg font-bold text-slate-900" id="totalAmount">0.00 درهم</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6 pt-6 border-t border-slate-200">
+                    <button type="button" onclick="closeSaleModal()" 
+                            class="px-4 py-2 text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                        إلغاء
+                    </button>
+                    <button type="button" onclick="previewInvoice()" 
+                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                        <i class="fas fa-eye ml-2"></i>معاينة
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                        <i class="fas fa-save ml-2"></i>حفظ الفاتورة
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Invoice Preview Modal -->
+    <div id="invoicePreviewModal" class="modal no-print">
+        <div class="modal-content">
+            <div class="p-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-slate-900">معاينة الفاتورة</h3>
+                    <button onclick="closeInvoicePreview()" class="text-slate-400 hover:text-slate-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6" id="invoicePreviewContent">
+                <!-- Invoice preview will be generated here -->
+            </div>
+            
+            <div class="p-6 border-t border-slate-200 flex justify-end space-x-3">
+                <button onclick="printInvoice()" 
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                    <i class="fas fa-print ml-2"></i>طباعة
+                </button>
+                <button onclick="closeInvoicePreview()" 
+                        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                    إغلاق
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-8 mt-12 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-slate-300">&copy; 2024 William Metal Management System. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        class SalesManager {
+            constructor(app) {
+                this.app = app;
+                this.invoiceItems = [];
+                this.filters = {
+                    search: '',
+                    dateFrom: '',
+                    dateTo: ''
+                };
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.updateStats();
+                this.renderSales();
+                this.animateElements();
+            }
+
+            setupEventListeners() {
+                // Search and filter inputs
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.filters.search = e.target.value;
+                    this.renderSales();
+                });
+
+                document.getElementById('dateFrom').addEventListener('change', (e) => {
+                    this.filters.dateFrom = e.target.value;
+                    this.renderSales();
+                });
+
+                document.getElementById('dateTo').addEventListener('change', (e) => {
+                    this.filters.dateTo = e.target.value;
+                    this.renderSales();
+                });
+
+                // Product search in selector
+                document.getElementById('productSearch').addEventListener('input', (e) => {
+                    this.filterProducts(e.target.value);
+                });
+
+                // Tax rate change
+                document.getElementById('taxRate').addEventListener('input', () => {
+                    this.updateInvoiceSummary();
+                });
+
+                // Form submission
+                document.getElementById('saleForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveSale();
+                });
+            }
+
+            updateStats() {
+                const today = new Date().toISOString().split('T')[0];
+                const todaySales = this.app.data.sales.filter(sale => 
+                    sale.created_at.split('T')[0] === today
+                );
+                
+                const todayTotal = todaySales.reduce((sum, sale) => sum + sale.total, 0);
+                const totalSales = this.app.data.sales.reduce((sum, sale) => sum + sale.total, 0);
+                const totalInvoices = this.app.data.sales.length;
+
+                document.getElementById('todaySales').textContent = this.app.formatCurrency(todayTotal);
+                document.getElementById('totalSales').textContent = this.app.formatCurrency(totalSales);
+                document.getElementById('totalInvoices').textContent = totalInvoices;
+
+                // Animate numbers
+                this.animateNumbers();
+            }
+
+            animateNumbers() {
+                const elements = ['todaySales', 'totalSales', 'totalInvoices'];
+                elements.forEach(id => {
+                    const element = document.getElementById(id);
+                    anime({
+                        targets: element,
+                        scale: [0.8, 1],
+                        opacity: [0, 1],
+                        duration: 800,
+                        delay: Math.random() * 400,
+                        easing: 'easeOutElastic(1, .8)'
+                    });
+                });
+            }
+
+            renderSales() {
+                let sales = [...this.app.data.sales];
+
+                // Apply filters
+                if (this.filters.search) {
+                    const searchTerm = this.filters.search.toLowerCase();
+                    sales = sales.filter(sale => 
+                        sale.invoice_number.toLowerCase().includes(searchTerm) ||
+                        sale.customer?.name.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                if (this.filters.dateFrom) {
+                    sales = sales.filter(sale => 
+                        sale.created_at >= this.filters.dateFrom
+                    );
+                }
+
+                if (this.filters.dateTo) {
+                    sales = sales.filter(sale => 
+                        sale.created_at <= this.filters.dateTo
+                    );
+                }
+
+                // Sort by date (newest first)
+                sales.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+                const tbody = document.getElementById('salesTableBody');
+                const emptyState = document.getElementById('emptyState');
+
+                if (sales.length === 0) {
+                    tbody.innerHTML = '';
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+
+                emptyState.classList.add('hidden');
+                tbody.innerHTML = sales.map(sale => this.createSaleRow(sale)).join('');
+
+                // Animate rows
+                anime({
+                    targets: '.sale-row',
+                    translateX: [50, 0],
+                    opacity: [0, 1],
+                    delay: anime.stagger(50),
+                    duration: 400,
+                    easing: 'easeOutExpo'
+                });
+            }
+
+            createSaleRow(sale) {
+                const statusColor = sale.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+                    sale.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-red-100 text-red-800';
+
+                return `
+                    <tr class="sale-row">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-slate-900">${sale.invoice_number}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-slate-900">${sale.customer?.name || 'عميل'}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-slate-600">${this.app.formatDate(sale.created_at)}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <div class="text-sm text-slate-900">${sale.items.length}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <div class="text-sm font-semibold text-slate-900">${this.app.formatCurrency(sale.total)}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <span class="px-2 py-1 text-xs font-medium rounded-full ${statusColor}">
+                                ${sale.status === 'COMPLETED' ? 'مكتملة' : sale.status === 'PENDING' ? 'قيد الانتظار' : 'ملغاة'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <div class="flex space-x-2">
+                                <button onclick="viewInvoice('${sale.id}')" 
+                                        class="text-blue-600 hover:text-blue-800 text-sm">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="printInvoice('${sale.id}')" 
+                                        class="text-green-600 hover:text-green-800 text-sm">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                                <button onclick="deleteSale('${sale.id}')" 
+                                        class="text-red-600 hover:text-red-800 text-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            openSaleModal() {
+                document.getElementById('saleModal').classList.add('show');
+                this.resetForm();
+            }
+
+            closeSaleModal() {
+                document.getElementById('saleModal').classList.remove('show');
+                this.resetForm();
+            }
+
+            resetForm() {
+                document.getElementById('saleForm').reset();
+                this.invoiceItems = [];
+                document.getElementById('invoiceItems').innerHTML = '';
+                this.updateInvoiceSummary();
+            }
+
+            openProductSelector() {
+                document.getElementById('productSelectorModal').classList.remove('hidden');
+                this.renderProductList();
+            }
+
+            closeProductSelector() {
+                document.getElementById('productSelectorModal').classList.add('hidden');
+                document.getElementById('productSearch').value = '';
+            }
+
+            renderProductList() {
+                const productList = document.getElementById('productList');
+                const products = this.app.data.products;
+
+                productList.innerHTML = products.map(product => {
+                    return product.variants.map(variant => `
+                        <div class="p-3 border-b border-slate-200 hover:bg-slate-50 cursor-pointer" 
+                             onclick="addInvoiceItem('${product.id}', '${variant.id}')">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="font-medium text-slate-900">${product.name_ar}</div>
+                                    <div class="text-sm text-slate-600">${variant.specification} - ${variant.sku}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-slate-900">${this.app.formatCurrency(variant.price)}</div>
+                                    <div class="text-sm text-slate-600">المخزون: ${variant.stock}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }).join('');
+            }
+
+            filterProducts(searchTerm) {
+                const products = this.app.data.products;
+                const productList = document.getElementById('productList');
+
+                const filteredProducts = products.filter(product => 
+                    product.name_ar.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    product.variants.some(variant => 
+                        variant.specification.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        variant.sku.toLowerCase().includes(searchTerm.toLowerCase())
+                    )
+                );
+
+                productList.innerHTML = filteredProducts.map(product => {
+                    return product.variants.map(variant => `
+                        <div class="p-3 border-b border-slate-200 hover:bg-slate-50 cursor-pointer" 
+                             onclick="addInvoiceItem('${product.id}', '${variant.id}')">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="font-medium text-slate-900">${product.name_ar}</div>
+                                    <div class="text-sm text-slate-600">${variant.specification} - ${variant.sku}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-slate-900">${this.app.formatCurrency(variant.price)}</div>
+                                    <div class="text-sm text-slate-600">المخزون: ${variant.stock}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }).join('');
+            }
+
+            addInvoiceItem(productId, variantId) {
+                const product = this.app.getProduct(productId);
+                const variant = product.variants.find(v => v.id === variantId);
+
+                if (!variant || variant.stock <= 0) {
+                    this.app.showNotification('المنتج غير متوفر في المخزون', 'error');
+                    return;
+                }
+
+                const existingItem = this.invoiceItems.find(item => 
+                    item.product_id === productId && item.variant_id === variantId
+                );
+
+                if (existingItem) {
+                    if (existingItem.quantity < variant.stock) {
+                        existingItem.quantity += 1;
+                        existingItem.total_price = existingItem.quantity * existingItem.unit_price;
+                    } else {
+                        this.app.showNotification('الكمية المطلوبة غير متوفرة في المخزون', 'error');
+                        return;
+                    }
+                } else {
+                    this.invoiceItems.push({
+                        product_id: productId,
+                        variant_id: variantId,
+                        product_name: product.name_ar,
+                        variant_name: variant.specification,
+                        quantity: 1,
+                        unit_price: variant.price,
+                        total_price: variant.price
+                    });
+                }
+
+                this.closeProductSelector();
+                this.renderInvoiceItems();
+                this.updateInvoiceSummary();
+            }
+
+            renderInvoiceItems() {
+                const container = document.getElementById('invoiceItems');
+                container.innerHTML = this.invoiceItems.map((item, index) => `
+                    <div class="invoice-item p-4 border border-slate-200 rounded-lg">
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                            <div class="md:col-span-2">
+                                <div class="font-medium text-slate-900">${item.product_name}</div>
+                                <div class="text-sm text-slate-600">${item.variant_name}</div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">الكمية</label>
+                                <input type="number" min="1" value="${item.quantity}" 
+                                       onchange="updateItemQuantity(${index}, this.value)"
+                                       class="w-full px-2 py-1 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">السعر</label>
+                                <input type="number" min="0" step="0.01" value="${item.unit_price}" 
+                                       onchange="updateItemPrice(${index}, this.value)"
+                                       class="w-full px-2 py-1 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-blue-500">
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <div class="text-sm font-semibold text-slate-900">${this.app.formatCurrency(item.total_price)}</div>
+                                </div>
+                                <button type="button" onclick="removeInvoiceItem(${index})" 
+                                        class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateItemQuantity(index, quantity) {
+                const item = this.invoiceItems[index];
+                const product = this.app.getProduct(item.product_id);
+                const variant = product.variants.find(v => v.id === item.variant_id);
+
+                if (quantity > variant.stock) {
+                    this.app.showNotification('الكمية المطلوبة غير متوفرة في المخزون', 'error');
+                    return;
+                }
+
+                item.quantity = parseInt(quantity);
+                item.total_price = item.quantity * item.unit_price;
+                this.renderInvoiceItems();
+                this.updateInvoiceSummary();
+            }
+
+            updateItemPrice(index, price) {
+                const item = this.invoiceItems[index];
+                item.unit_price = parseFloat(price);
+                item.total_price = item.quantity * item.unit_price;
+                this.renderInvoiceItems();
+                this.updateInvoiceSummary();
+            }
+
+            removeInvoiceItem(index) {
+                this.invoiceItems.splice(index, 1);
+                this.renderInvoiceItems();
+                this.updateInvoiceSummary();
+            }
+
+            updateInvoiceSummary() {
+                const subtotal = this.invoiceItems.reduce((sum, item) => sum + item.total_price, 0);
+                const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+                const taxAmount = subtotal * (taxRate / 100);
+                const total = subtotal + taxAmount;
+
+                document.getElementById('subtotal').textContent = this.app.formatCurrency(subtotal);
+                document.getElementById('taxAmount').textContent = this.app.formatCurrency(taxAmount);
+                document.getElementById('totalAmount').textContent = this.app.formatCurrency(total);
+            }
+
+            previewInvoice() {
+                if (this.invoiceItems.length === 0) {
+                    this.app.showNotification('يرجى إضافة عناصر للفاتورة', 'error');
+                    return;
+                }
+
+                const customerName = document.getElementById('customerName').value || 'عميل';
+                const customerPhone = document.getElementById('customerPhone').value || '';
+                const customerAddress = document.getElementById('customerAddress').value || '';
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+
+                const subtotal = this.invoiceItems.reduce((sum, item) => sum + item.total_price, 0);
+                const taxAmount = subtotal * (taxRate / 100);
+                const total = subtotal + taxAmount;
+
+                const invoiceNumber = `INV-${new Date().getFullYear()}-${String(this.app.data.sales.length + 1).padStart(4, '0')}`;
+                const invoiceDate = new Date().toLocaleDateString('ar-MA');
+
+                const previewContent = `
+                    <div class="invoice-preview">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-900">William Metal</h2>
+                                <p class="text-slate-600">الدار البيضاء، المغرب</p>
+                                <p class="text-slate-600">هاتف: +212522123456</p>
+                            </div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold text-slate-900">فاتورة مبيعات</h3>
+                                <p class="text-slate-600">رقم الفاتورة: ${invoiceNumber}</p>
+                                <p class="text-slate-600">التاريخ: ${invoiceDate}</p>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-b border-slate-200 py-4 mb-6">
+                            <h4 class="font-semibold text-slate-900 mb-2">معلومات العميل:</h4>
+                            <p class="text-slate-700">الاسم: ${customerName}</p>
+                            ${customerPhone ? `<p class="text-slate-700">الهاتف: ${customerPhone}</p>` : ''}
+                            ${customerAddress ? `<p class="text-slate-700">العنوان: ${customerAddress}</p>` : ''}
+                        </div>
+
+                        <table class="w-full mb-6">
+                            <thead>
+                                <tr class="border-b border-slate-200">
+                                    <th class="text-right py-2 font-semibold text-slate-900">المنتج</th>
+                                    <th class="text-center py-2 font-semibold text-slate-900">الكمية</th>
+                                    <th class="text-right py-2 font-semibold text-slate-900">السعر</th>
+                                    <th class="text-right py-2 font-semibold text-slate-900">المجموع</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${this.invoiceItems.map(item => `
+                                    <tr class="border-b border-slate-100">
+                                        <td class="py-2 text-slate-700">${item.product_name} - ${item.variant_name}</td>
+                                        <td class="py-2 text-center text-slate-700">${item.quantity}</td>
+                                        <td class="py-2 text-right text-slate-700">${this.app.formatCurrency(item.unit_price)}</td>
+                                        <td class="py-2 text-right text-slate-700">${this.app.formatCurrency(item.total_price)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+
+                        <div class="flex justify-end">
+                            <div class="w-64">
+                                <div class="flex justify-between mb-2">
+                                    <span class="font-medium text-slate-700">المجموع الفرعي:</span>
+                                    <span class="font-semibold text-slate-900">${this.app.formatCurrency(subtotal)}</span>
+                                </div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="font-medium text-slate-700">الضريبة (${taxRate}%):</span>
+                                    <span class="font-semibold text-slate-900">${this.app.formatCurrency(taxAmount)}</span>
+                                </div>
+                                <div class="flex justify-between pt-2 border-t border-slate-200">
+                                    <span class="text-lg font-bold text-slate-900">الإجمالي:</span>
+                                    <span class="text-lg font-bold text-slate-900">${this.app.formatCurrency(total)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-200">
+                            <p class="text-sm text-slate-600">طريقة الدفع: ${paymentMethod === 'CASH' ? 'نقداً' : paymentMethod === 'CREDIT' ? 'آجل' : 'شيك'}</p>
+                            <p class="text-sm text-slate-600 mt-2">شكراً لثقتكم بنا</p>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('invoicePreviewContent').innerHTML = previewContent;
+                document.getElementById('invoicePreviewModal').classList.add('show');
+            }
+
+            closeInvoicePreview() {
+                document.getElementById('invoicePreviewModal').classList.remove('show');
+            }
+
+            printInvoice() {
+                window.print();
+            }
+
+            saveSale() {
+                if (this.invoiceItems.length === 0) {
+                    this.app.showNotification('يرجى إضافة عناصر للفاتورة', 'error');
+                    return;
+                }
+
+                const customerName = document.getElementById('customerName').value;
+                if (!customerName) {
+                    this.app.showNotification('يرجى إدخال اسم العميل', 'error');
+                    return;
+                }
+
+                const subtotal = this.invoiceItems.reduce((sum, item) => sum + item.total_price, 0);
+                const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+                const taxAmount = subtotal * (taxRate / 100);
+                const total = subtotal + taxAmount;
+
+                const saleData = {
+                    customer: {
+                        name: customerName,
+                        phone: document.getElementById('customerPhone').value,
+                        address: document.getElementById('customerAddress').value
+                    },
+                    items: this.invoiceItems,
+                    subtotal: subtotal,
+                    tax: taxAmount,
+                    total: total,
+                    payment_method: document.getElementById('paymentMethod').value,
+                    status: 'COMPLETED'
+                };
+
+                const newSale = this.app.createSale(saleData);
+                
+                if (newSale) {
+                    this.app.showNotification('تم إنشاء الفاتورة بنجاح', 'success');
+                    this.closeSaleModal();
+                    this.updateStats();
+                    this.renderSales();
+                } else {
+                    this.app.showNotification('فشل إنشاء الفاتورة', 'error');
+                }
+            }
+
+            viewInvoice(saleId) {
+                const sale = this.app.data.sales.find(s => s.id === saleId);
+                if (sale) {
+                    this.generateInvoicePreview(sale);
+                }
+            }
+
+            generateInvoicePreview(sale) {
+                const previewContent = `
+                    <div class="invoice-preview">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-900">William Metal</h2>
+                                <p class="text-slate-600">الدار البيضاء، المغرب</p>
+                                <p class="text-slate-600">هاتف: +212522123456</p>
+                            </div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold text-slate-900">فاتورة مبيعات</h3>
+                                <p class="text-slate-600">رقم الفاتورة: ${sale.invoice_number}</p>
+                                <p class="text-slate-600">التاريخ: ${this.app.formatDate(sale.created_at)}</p>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-b border-slate-200 py-4 mb-6">
+                            <h4 class="font-semibold text-slate-900 mb-2">معلومات العميل:</h4>
+                            <p class="text-slate-700">الاسم: ${sale.customer?.name || 'عميل'}</p>
+                            ${sale.customer?.phone ? `<p class="text-slate-700">الهاتف: ${sale.customer.phone}</p>` : ''}
+                            ${sale.customer?.address ? `<p class="text-slate-700">العنوان: ${sale.customer.address}</p>` : ''}
+                        </div>
+
+                        <table class="w-full mb-6">
+                            <thead>
+                                <tr class="border-b border-slate-200">
+                                    <th class="text-right py-2 font-semibold text-slate-900">المنتج</th>
+                                    <th class="text-center py-2 font-semibold text-slate-900">الكمية</th>
+                                    <th class="text-right py-2 font-semibold text-slate-900">السعر</th>
+                                    <th class="text-right py-2 font-semibold text-slate-900">المجموع</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${sale.items.map(item => {
+                                    const product = this.app.getProduct(item.product_id);
+                                    return `
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-2 text-slate-700">${product.name_ar} - ${item.variant_name}</td>
+                                            <td class="py-2 text-center text-slate-700">${item.quantity}</td>
+                                            <td class="py-2 text-right text-slate-700">${this.app.formatCurrency(item.unit_price)}</td>
+                                            <td class="py-2 text-right text-slate-700">${this.app.formatCurrency(item.total_price)}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+
+                        <div class="flex justify-end">
+                            <div class="w-64">
+                                <div class="flex justify-between mb-2">
+                                    <span class="font-medium text-slate-700">المجموع الفرعي:</span>
+                                    <span class="font-semibold text-slate-900">${this.app.formatCurrency(sale.subtotal)}</span>
+                                </div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="font-medium text-slate-700">الضريبة:</span>
+                                    <span class="font-semibold text-slate-900">${this.app.formatCurrency(sale.tax)}</span>
+                                </div>
+                                <div class="flex justify-between pt-2 border-t border-slate-200">
+                                    <span class="text-lg font-bold text-slate-900">الإجمالي:</span>
+                                    <span class="text-lg font-bold text-slate-900">${this.app.formatCurrency(sale.total)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-200">
+                            <p class="text-sm text-slate-600">طريقة الدفع: ${sale.payment_method === 'CASH' ? 'نقداً' : sale.payment_method === 'CREDIT' ? 'آجل' : 'شيك'}</p>
+                            <p class="text-sm text-slate-600 mt-2">شكراً لثقتكم بنا</p>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('invoicePreviewContent').innerHTML = previewContent;
+                document.getElementById('invoicePreviewModal').classList.add('show');
+            }
+
+            deleteSale(saleId) {
+                if (confirm('هل أنت متأكد من حذف هذه الفاتورة؟')) {
+                    const index = this.app.data.sales.findIndex(s => s.id === saleId);
+                    if (index !== -1) {
+                        // Restore stock
+                        const sale = this.app.data.sales[index];
+                        sale.items.forEach(item => {
+                            this.app.updateStock(item.product_id, item.variant_id, item.quantity, 'IN', {
+                                type: 'SALE_CANCEL',
+                                id: saleId
+                            });
+                        });
+
+                        this.app.data.sales.splice(index, 1);
+                        this.app.saveData();
+                        this.app.showNotification('تم حذف الفاتورة بنجاح', 'success');
+                        this.updateStats();
+                        this.renderSales();
+                    }
+                }
+            }
+
+            exportSales() {
+                const sales = this.app.data.sales.map(sale => ({
+                    'رقم الفاتورة': sale.invoice_number,
+                    'العميل': sale.customer?.name || 'عميل',
+                    'التاريخ': this.app.formatDate(sale.created_at),
+                    'عدد العناصر': sale.items.length,
+                    'المجموع الفرعي': sale.subtotal,
+                    'الضريبة': sale.tax,
+                    'الإجمالي': sale.total,
+                    'طريقة الدفع': sale.payment_method === 'CASH' ? 'نقداً' : sale.payment_method === 'CREDIT' ? 'آجل' : 'شيك',
+                    'الحالة': sale.status === 'COMPLETED' ? 'مكتملة' : sale.status === 'PENDING' ? 'قيد الانتظار' : 'ملغاة'
+                }));
+
+                // Convert to CSV
+                const csv = this.convertToCSV(sales);
+                this.downloadCSV(csv, 'sales_report.csv');
+                this.app.showNotification('تم تصدير المبيعات بنجاح', 'success');
+            }
+
+            convertToCSV(data) {
+                const headers = Object.keys(data[0]);
+                const csvContent = [
+                    headers.join(','),
+                    ...data.map(row => headers.map(header => `"${row[header]}"`).join(','))
+                ].join('\n');
+                
+                return csvContent;
+            }
+
+            downloadCSV(csv, filename) {
+                const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            animateElements() {
+                // Animate fade-in elements
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+        }
+
+        // Global functions for onclick handlers
+        let salesManager;
+
+        function openSaleModal() {
+            salesManager.openSaleModal();
+        }
+
+        function closeSaleModal() {
+            salesManager.closeSaleModal();
+        }
+
+        function openProductSelector() {
+            salesManager.openProductSelector();
+        }
+
+        function closeProductSelector() {
+            salesManager.closeProductSelector();
+        }
+
+        function addInvoiceItem(productId, variantId) {
+            salesManager.addInvoiceItem(productId, variantId);
+        }
+
+        function updateItemQuantity(index, quantity) {
+            salesManager.updateItemQuantity(index, quantity);
+        }
+
+        function updateItemPrice(index, price) {
+            salesManager.updateItemPrice(index, price);
+        }
+
+        function removeInvoiceItem(index) {
+            salesManager.removeInvoiceItem(index);
+        }
+
+        function previewInvoice() {
+            salesManager.previewInvoice();
+        }
+
+        function closeInvoicePreview() {
+            salesManager.closeInvoicePreview();
+        }
+
+        function printInvoice(saleId = null) {
+            if (saleId) {
+                salesManager.viewInvoice(saleId);
+                setTimeout(() => {
+                    window.print();
+                }, 500);
+            } else {
+                salesManager.printInvoice();
+            }
+        }
+
+        function viewInvoice(saleId) {
+            salesManager.viewInvoice(saleId);
+        }
+
+        function deleteSale(saleId) {
+            salesManager.deleteSale(saleId);
+        }
+
+        function exportSales() {
+            salesManager.exportSales();
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (app.checkAuth()) {
+                salesManager = new SalesManager(app);
+            } else {
+                app.showNotification('يرجى تسجيل الدخول', 'error');
+                setTimeout(() => {
+                    app.login('admin', 'admin123');
+                    salesManager = new SalesManager(app);
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

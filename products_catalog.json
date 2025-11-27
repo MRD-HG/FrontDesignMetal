@@ -1,0 +1,1829 @@
+[
+  {
+    "category": "",
+    "name_ar": "تيب روند مويان 1.5",
+    "name_en": "Medium Round Tube 1.5",
+    "full_name": "تيب روند مويان 1.5 (Medium Round Tube 1.5)",
+    "specifications": "\"1.5/16 , 1.5/20 , 1.5/25 , 1.5/30 , 1.5/40 , 1.5/50 , 1.5/60 \"",
+    "variants": [
+      {
+        "id": "تيب روند مويان 1.5 (Medium Round Tube 1.5)_\"1.5/16",
+        "specification": "\"1.5/16",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "تيب روند مويان 1.5 (Medium Round Tube 1.5)_1.5/20",
+        "specification": "1.5/20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "تيب روند مويان 1.5 (Medium Round Tube 1.5)_1.5/25",
+        "specification": "1.5/25",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "تيب روند مويان 1.5 (Medium Round Tube 1.5)_1.5/30",
+        "specification": "1.5/30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "تيب روند مويان 1.5 (Medium Round Tube 1.5)_1.5/40",
+        "specification": "1.5/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "تيب روند مويان 1.5 (Medium Round Tube 1.5)_1.5/50",
+        "specification": "1.5/50",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "تيب روند مويان 1.5 (Medium Round Tube 1.5)_1.5/60 \"",
+        "specification": "1.5/60 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "تيب روند 1",
+    "name_en": "Round Tube 1",
+    "full_name": "تيب روند 1 (Round Tube 1)",
+    "specifications": "\"1/16 , 1/20 , 1/25 , 1/30 , 1/40 , 1/50 , 1/60 \"",
+    "variants": [
+      {
+        "id": "تيب روند 1 (Round Tube 1)_\"1/16",
+        "specification": "\"1/16",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "تيب روند 1 (Round Tube 1)_1/20",
+        "specification": "1/20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "تيب روند 1 (Round Tube 1)_1/25",
+        "specification": "1/25",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "تيب روند 1 (Round Tube 1)_1/30",
+        "specification": "1/30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "تيب روند 1 (Round Tube 1)_1/40",
+        "specification": "1/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "تيب روند 1 (Round Tube 1)_1/50",
+        "specification": "1/50",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "تيب روند 1 (Round Tube 1)_1/60 \"",
+        "specification": "1/60 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "تيب روند غليظة 3",
+    "name_en": "Thick Round Tube 3",
+    "full_name": "تيب روند غليظة 3 (Thick Round Tube 3)",
+    "specifications": "1.5/90",
+    "variants": [
+      {
+        "id": "تيب روند غليظة 3 (Thick Round Tube 3)_1.5/90",
+        "specification": "1.5/90",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "تيب روند غليظة /2",
+    "name_en": "Thick Round Tube /2",
+    "full_name": "تيب روند غليظة /2 (Thick Round Tube /2)",
+    "specifications": "\"3/63 , 3/75 , 3/90 , 3/100 , 2/30 , 2/40 , 2/50 , 2/60 , 2/70 , 2/75 , 2/80 , 2/90 , 2/100 \"",
+    "variants": [
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_\"3/63",
+        "specification": "\"3/63",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_3/75",
+        "specification": "3/75",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_3/90",
+        "specification": "3/90",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_3/100",
+        "specification": "3/100",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_2/30",
+        "specification": "2/30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_2/40",
+        "specification": "2/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_2/50",
+        "specification": "2/50",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_2/60",
+        "specification": "2/60",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0008"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_2/70",
+        "specification": "2/70",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0009"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_2/75",
+        "specification": "2/75",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0010"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_2/80",
+        "specification": "2/80",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0011"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_2/90",
+        "specification": "2/90",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0012"
+      },
+      {
+        "id": "تيب روند غليظة /2 (Thick Round Tube /2)_2/100 \"",
+        "specification": "2/100 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0013"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "تيب كاري عادية",
+    "name_en": "Regular Square Tube",
+    "full_name": "تيب كاري عادية (Regular Square Tube)",
+    "specifications": "\"0.8/16 , 0.8/20 , 0.8/25 , 0.8/30 , 0.8/40 , 0.8/50 , 20/30 , 20/40 , 25/40 \"",
+    "variants": [
+      {
+        "id": "تيب كاري عادية (Regular Square Tube)_\"0.8/16",
+        "specification": "\"0.8/16",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "تيب كاري عادية (Regular Square Tube)_0.8/20",
+        "specification": "0.8/20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "تيب كاري عادية (Regular Square Tube)_0.8/25",
+        "specification": "0.8/25",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "تيب كاري عادية (Regular Square Tube)_0.8/30",
+        "specification": "0.8/30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "تيب كاري عادية (Regular Square Tube)_0.8/40",
+        "specification": "0.8/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "تيب كاري عادية (Regular Square Tube)_0.8/50",
+        "specification": "0.8/50",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "تيب كاري عادية (Regular Square Tube)_20/30",
+        "specification": "20/30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      },
+      {
+        "id": "تيب كاري عادية (Regular Square Tube)_20/40",
+        "specification": "20/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0008"
+      },
+      {
+        "id": "تيب كاري عادية (Regular Square Tube)_25/40 \"",
+        "specification": "25/40 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0009"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "تيب كاري مويان 1",
+    "name_en": "Medium Square Tube 1",
+    "full_name": "تيب كاري مويان 1 (Medium Square Tube 1)",
+    "specifications": "\"1/16 , 1/20 , 1/25 , 1/30 , 1/40 , 1/50 , 1/60 , 20/40 , 30/20 , 50/30 , 25/40 , 60/40 , 70/40 \"",
+    "variants": [
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_\"1/16",
+        "specification": "\"1/16",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_1/20",
+        "specification": "1/20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_1/25",
+        "specification": "1/25",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_1/30",
+        "specification": "1/30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_1/40",
+        "specification": "1/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_1/50",
+        "specification": "1/50",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_1/60",
+        "specification": "1/60",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_20/40",
+        "specification": "20/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0008"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_30/20",
+        "specification": "30/20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0009"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_50/30",
+        "specification": "50/30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0010"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_25/40",
+        "specification": "25/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0011"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_60/40",
+        "specification": "60/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0012"
+      },
+      {
+        "id": "تيب كاري مويان 1 (Medium Square Tube 1)_70/40 \"",
+        "specification": "70/40 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0013"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "تيب كاري مويان 1.5",
+    "name_en": "Medium Square Tube 1.5",
+    "full_name": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)",
+    "specifications": "\"20/20 , 30/30 , 20/40 , 25/25 , 50/30 , 40/40 , 50/50 , 60/40 , 70/40 , 60/60 , 80/80 , 100/100 \"",
+    "variants": [
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_\"20/20",
+        "specification": "\"20/20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_30/30",
+        "specification": "30/30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_20/40",
+        "specification": "20/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_25/25",
+        "specification": "25/25",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_50/30",
+        "specification": "50/30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_40/40",
+        "specification": "40/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_50/50",
+        "specification": "50/50",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_60/40",
+        "specification": "60/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0008"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_70/40",
+        "specification": "70/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0009"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_60/60",
+        "specification": "60/60",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0010"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_80/80",
+        "specification": "80/80",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0011"
+      },
+      {
+        "id": "تيب كاري مويان 1.5 (Medium Square Tube 1.5)_100/100 \"",
+        "specification": "100/100 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0012"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "تيب كاري 2 غليظة",
+    "name_en": "Thick Square Tube 2",
+    "full_name": "تيب كاري 2 غليظة (Thick Square Tube 2)",
+    "specifications": "\"40/40 , 50/50 , 60/60 , 60/40 , 70/40 , 80/80 , 100/100 , 3/100/100 \"",
+    "variants": [
+      {
+        "id": "تيب كاري 2 غليظة (Thick Square Tube 2)_\"40/40",
+        "specification": "\"40/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "تيب كاري 2 غليظة (Thick Square Tube 2)_50/50",
+        "specification": "50/50",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "تيب كاري 2 غليظة (Thick Square Tube 2)_60/60",
+        "specification": "60/60",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "تيب كاري 2 غليظة (Thick Square Tube 2)_60/40",
+        "specification": "60/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "تيب كاري 2 غليظة (Thick Square Tube 2)_70/40",
+        "specification": "70/40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "تيب كاري 2 غليظة (Thick Square Tube 2)_80/80",
+        "specification": "80/80",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "تيب كاري 2 غليظة (Thick Square Tube 2)_100/100",
+        "specification": "100/100",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      },
+      {
+        "id": "تيب كاري 2 غليظة (Thick Square Tube 2)_3/100/100 \"",
+        "specification": "3/100/100 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0008"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "كورنير عادي",
+    "name_en": "Regular Angle",
+    "full_name": "كورنير عادي (Regular Angle)",
+    "specifications": "\"20 , 25 , 30 , 35 , 40 , 45 , 50 \"",
+    "variants": [
+      {
+        "id": "كورنير عادي (Regular Angle)_\"20",
+        "specification": "\"20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "كورنير عادي (Regular Angle)_25",
+        "specification": "25",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "كورنير عادي (Regular Angle)_30",
+        "specification": "30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "كورنير عادي (Regular Angle)_35",
+        "specification": "35",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "كورنير عادي (Regular Angle)_40",
+        "specification": "40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "كورنير عادي (Regular Angle)_45",
+        "specification": "45",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "كورنير عادي (Regular Angle)_50 \"",
+        "specification": "50 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "كورنير مويان 2.8",
+    "name_en": "Medium Angle 2.8",
+    "full_name": "كورنير مويان 2.8 (Medium Angle 2.8)",
+    "specifications": "\"30 , 35 , 40 , 45 , 50 \"",
+    "variants": [
+      {
+        "id": "كورنير مويان 2.8 (Medium Angle 2.8)_\"30",
+        "specification": "\"30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "كورنير مويان 2.8 (Medium Angle 2.8)_35",
+        "specification": "35",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "كورنير مويان 2.8 (Medium Angle 2.8)_40",
+        "specification": "40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "كورنير مويان 2.8 (Medium Angle 2.8)_45",
+        "specification": "45",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "كورنير مويان 2.8 (Medium Angle 2.8)_50 \"",
+        "specification": "50 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "كورنير مويان 3",
+    "name_en": "Medium Angle 3",
+    "full_name": "كورنير مويان 3 (Medium Angle 3)",
+    "specifications": "\"30 , 35 , 40 , 45 , 50 \"",
+    "variants": [
+      {
+        "id": "كورنير مويان 3 (Medium Angle 3)_\"30",
+        "specification": "\"30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "كورنير مويان 3 (Medium Angle 3)_35",
+        "specification": "35",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "كورنير مويان 3 (Medium Angle 3)_40",
+        "specification": "40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "كورنير مويان 3 (Medium Angle 3)_45",
+        "specification": "45",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "كورنير مويان 3 (Medium Angle 3)_50 \"",
+        "specification": "50 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "كورنير غليظ 4",
+    "name_en": "Thick Angle 4",
+    "full_name": "كورنير غليظ 4 (Thick Angle 4)",
+    "specifications": "\"30 , 35 , 40 , 45 , 50 \"",
+    "variants": [
+      {
+        "id": "كورنير غليظ 4 (Thick Angle 4)_\"30",
+        "specification": "\"30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "كورنير غليظ 4 (Thick Angle 4)_35",
+        "specification": "35",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "كورنير غليظ 4 (Thick Angle 4)_40",
+        "specification": "40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "كورنير غليظ 4 (Thick Angle 4)_45",
+        "specification": "45",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "كورنير غليظ 4 (Thick Angle 4)_50 \"",
+        "specification": "50 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "فير بلا",
+    "name_en": "Flat Bar",
+    "full_name": "فير بلا (Flat Bar)",
+    "specifications": "\"10/4 , 10/3 , 20/3 , 420​ , 20/5 , 20/6 , 820​ , 25/3 , 25/4 , 25/5 , 25/6 , 25/8 , 25/10 , 30/3 , 30/4 , 30/5 , 30/6 , 30/8 , 30/10 , 40/3 , 40/4 , 40/5 , 50/5 , 50/6 \"",
+    "variants": [
+      {
+        "id": "فير بلا (Flat Bar)_\"10/4",
+        "specification": "\"10/4",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_10/3",
+        "specification": "10/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_20/3",
+        "specification": "20/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_420​",
+        "specification": "420​",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_20/5",
+        "specification": "20/5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_20/6",
+        "specification": "20/6",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_820​",
+        "specification": "820​",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_25/3",
+        "specification": "25/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0008"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_25/4",
+        "specification": "25/4",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0009"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_25/5",
+        "specification": "25/5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0010"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_25/6",
+        "specification": "25/6",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0011"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_25/8",
+        "specification": "25/8",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0012"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_25/10",
+        "specification": "25/10",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0013"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_30/3",
+        "specification": "30/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0014"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_30/4",
+        "specification": "30/4",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0015"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_30/5",
+        "specification": "30/5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0016"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_30/6",
+        "specification": "30/6",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0017"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_30/8",
+        "specification": "30/8",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0018"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_30/10",
+        "specification": "30/10",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0019"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_40/3",
+        "specification": "40/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0020"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_40/4",
+        "specification": "40/4",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0021"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_40/5",
+        "specification": "40/5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0022"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_50/5",
+        "specification": "50/5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0023"
+      },
+      {
+        "id": "فير بلا (Flat Bar)_50/6 \"",
+        "specification": "50/6 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0024"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "فيروند",
+    "name_en": "Round Bar",
+    "full_name": "فيروند (Round Bar)",
+    "specifications": "\"7 , 8 , 9 , 10 , 11 , 13 , 14 , 16 , 20 , 25 , 30 , 35 , 40 \"",
+    "variants": [
+      {
+        "id": "فيروند (Round Bar)_\"7",
+        "specification": "\"7",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "فيروند (Round Bar)_8",
+        "specification": "8",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "فيروند (Round Bar)_9",
+        "specification": "9",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "فيروند (Round Bar)_10",
+        "specification": "10",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "فيروند (Round Bar)_11",
+        "specification": "11",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "فيروند (Round Bar)_13",
+        "specification": "13",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "فيروند (Round Bar)_14",
+        "specification": "14",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      },
+      {
+        "id": "فيروند (Round Bar)_16",
+        "specification": "16",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0008"
+      },
+      {
+        "id": "فيروند (Round Bar)_20",
+        "specification": "20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0009"
+      },
+      {
+        "id": "فيروند (Round Bar)_25",
+        "specification": "25",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0010"
+      },
+      {
+        "id": "فيروند (Round Bar)_30",
+        "specification": "30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0011"
+      },
+      {
+        "id": "فيروند (Round Bar)_35",
+        "specification": "35",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0012"
+      },
+      {
+        "id": "فيروند (Round Bar)_40 \"",
+        "specification": "40 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0013"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "طولة سامبل عادية",
+    "name_en": "Regular Simple Sheet",
+    "full_name": "طولة سامبل عادية (Regular Simple Sheet)",
+    "specifications": "\"5 كحلة (5 Black) , 5 كالفانزي (5 Galvanized) , 10 , 12 , 13 , 14 , 15 , 16 , 17 , 18 , 19 , 20 , 25 , 30 , 1.5/60 , ديكور عادية (Regular Decor) , ديكور مزيانة (Fine Decor) \"",
+    "variants": [
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_\"5 كحلة (5 Black)",
+        "specification": "\"5 كحلة (5 Black)",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_5 كالفانزي (5 Galvanized)",
+        "specification": "5 كالفانزي (5 Galvanized)",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_10",
+        "specification": "10",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_12",
+        "specification": "12",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_13",
+        "specification": "13",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_14",
+        "specification": "14",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_15",
+        "specification": "15",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_16",
+        "specification": "16",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0008"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_17",
+        "specification": "17",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0009"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_18",
+        "specification": "18",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0010"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_19",
+        "specification": "19",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0011"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_20",
+        "specification": "20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0012"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_25",
+        "specification": "25",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0013"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_30",
+        "specification": "30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0014"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_1.5/60",
+        "specification": "1.5/60",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0015"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_ديكور عادية (Regular Decor)",
+        "specification": "ديكور عادية (Regular Decor)",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0016"
+      },
+      {
+        "id": "طولة سامبل عادية (Regular Simple Sheet)_ديكور مزيانة (Fine Decor) \"",
+        "specification": "ديكور مزيانة (Fine Decor) \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0017"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "طولة كالفانزي 30",
+    "name_en": "Galvanized Sheet 30",
+    "full_name": "طولة كالفانزي 30 (Galvanized Sheet 30)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "طولة ريدال 2 متر 13",
+    "name_en": "Riddled Sheet 2m 13",
+    "full_name": "طولة ريدال 2 متر 13 (Riddled Sheet 2m 13)",
+    "specifications": "\"55/2 , 68/2 , 74/2 , 88/2 , 94/2 \"",
+    "variants": [
+      {
+        "id": "طولة ريدال 2 متر 13 (Riddled Sheet 2m 13)_\"55/2",
+        "specification": "\"55/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "طولة ريدال 2 متر 13 (Riddled Sheet 2m 13)_68/2",
+        "specification": "68/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "طولة ريدال 2 متر 13 (Riddled Sheet 2m 13)_74/2",
+        "specification": "74/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "طولة ريدال 2 متر 13 (Riddled Sheet 2m 13)_88/2",
+        "specification": "88/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "طولة ريدال 2 متر 13 (Riddled Sheet 2m 13)_94/2 \"",
+        "specification": "94/2 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "طولة ريدال 2 متر 10",
+    "name_en": "Riddled Sheet 2m 10",
+    "full_name": "طولة ريدال 2 متر 10 (Riddled Sheet 2m 10)",
+    "specifications": "\"55/2 , 68/2 , 74/2 , 88/2 , 94/2 \"",
+    "variants": [
+      {
+        "id": "طولة ريدال 2 متر 10 (Riddled Sheet 2m 10)_\"55/2",
+        "specification": "\"55/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "طولة ريدال 2 متر 10 (Riddled Sheet 2m 10)_68/2",
+        "specification": "68/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "طولة ريدال 2 متر 10 (Riddled Sheet 2m 10)_74/2",
+        "specification": "74/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "طولة ريدال 2 متر 10 (Riddled Sheet 2m 10)_88/2",
+        "specification": "88/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "طولة ريدال 2 متر 10 (Riddled Sheet 2m 10)_94/2 \"",
+        "specification": "94/2 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "طولة ريدال 2.5 متر 13",
+    "name_en": "Riddled Sheet 2.5m 13",
+    "full_name": "طولة ريدال 2.5 متر 13 (Riddled Sheet 2.5m 13)",
+    "specifications": "\"55/2.5 , 68/2.5 , 75/2.5 , 88/2.5 , 94/2.5 \"",
+    "variants": [
+      {
+        "id": "طولة ريدال 2.5 متر 13 (Riddled Sheet 2.5m 13)_\"55/2.5",
+        "specification": "\"55/2.5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "طولة ريدال 2.5 متر 13 (Riddled Sheet 2.5m 13)_68/2.5",
+        "specification": "68/2.5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "طولة ريدال 2.5 متر 13 (Riddled Sheet 2.5m 13)_75/2.5",
+        "specification": "75/2.5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "طولة ريدال 2.5 متر 13 (Riddled Sheet 2.5m 13)_88/2.5",
+        "specification": "88/2.5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "طولة ريدال 2.5 متر 13 (Riddled Sheet 2.5m 13)_94/2.5 \"",
+        "specification": "94/2.5 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "طولة ريدال 2.5 متر 10",
+    "name_en": "Riddled Sheet 2.5m 10",
+    "full_name": "طولة ريدال 2.5 متر 10 (Riddled Sheet 2.5m 10)",
+    "specifications": "\"55/2.5 , 68/2.5 , 74/2.5 , 88/2.5 , 94/2.5 \"",
+    "variants": [
+      {
+        "id": "طولة ريدال 2.5 متر 10 (Riddled Sheet 2.5m 10)_\"55/2.5",
+        "specification": "\"55/2.5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "طولة ريدال 2.5 متر 10 (Riddled Sheet 2.5m 10)_68/2.5",
+        "specification": "68/2.5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "طولة ريدال 2.5 متر 10 (Riddled Sheet 2.5m 10)_74/2.5",
+        "specification": "74/2.5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "طولة ريدال 2.5 متر 10 (Riddled Sheet 2.5m 10)_88/2.5",
+        "specification": "88/2.5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "طولة ريدال 2.5 متر 10 (Riddled Sheet 2.5m 10)_94/2.5 \"",
+        "specification": "94/2.5 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "طولة ريدال 3 متر 13",
+    "name_en": "Riddled Sheet 3m 13",
+    "full_name": "طولة ريدال 3 متر 13 (Riddled Sheet 3m 13)",
+    "specifications": "\"55/3 , 68/3 , 74/3 , 88/3 , 94/3 \"",
+    "variants": [
+      {
+        "id": "طولة ريدال 3 متر 13 (Riddled Sheet 3m 13)_\"55/3",
+        "specification": "\"55/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "طولة ريدال 3 متر 13 (Riddled Sheet 3m 13)_68/3",
+        "specification": "68/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "طولة ريدال 3 متر 13 (Riddled Sheet 3m 13)_74/3",
+        "specification": "74/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "طولة ريدال 3 متر 13 (Riddled Sheet 3m 13)_88/3",
+        "specification": "88/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "طولة ريدال 3 متر 13 (Riddled Sheet 3m 13)_94/3 \"",
+        "specification": "94/3 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "طولة ريدال 3 متر 10",
+    "name_en": "Riddled Sheet 3m 10",
+    "full_name": "طولة ريدال 3 متر 10 (Riddled Sheet 3m 10)",
+    "specifications": "\"55/3 , 68/3 , 74/3 , 88/3 , 94/3 \"",
+    "variants": [
+      {
+        "id": "طولة ريدال 3 متر 10 (Riddled Sheet 3m 10)_\"55/3",
+        "specification": "\"55/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "طولة ريدال 3 متر 10 (Riddled Sheet 3m 10)_68/3",
+        "specification": "68/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "طولة ريدال 3 متر 10 (Riddled Sheet 3m 10)_74/3",
+        "specification": "74/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "طولة ريدال 3 متر 10 (Riddled Sheet 3m 10)_88/3",
+        "specification": "88/3",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "طولة ريدال 3 متر 10 (Riddled Sheet 3m 10)_94/3 \"",
+        "specification": "94/3 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "طولة ليزر",
+    "name_en": "Laser Sheet",
+    "full_name": "طولة ليزر (Laser Sheet)",
+    "specifications": "\"30 , 40 , 50 \"",
+    "variants": [
+      {
+        "id": "طولة ليزر (Laser Sheet)_\"30",
+        "specification": "\"30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "طولة ليزر (Laser Sheet)_40",
+        "specification": "40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "طولة ليزر (Laser Sheet)_50 \"",
+        "specification": "50 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "لامة كحلة",
+    "name_en": "Black Clamp/Plate",
+    "full_name": "لامة كحلة (Black Clamp/Plate)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "شبكة 1m عين صغيرة",
+    "name_en": "1m Small Mesh Net",
+    "full_name": "شبكة 1m عين صغيرة (1m Small Mesh Net)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "شبكة 120 عين صغيرة",
+    "name_en": "120 Small Mesh Net",
+    "full_name": "شبكة 120 عين صغيرة (120 Small Mesh Net)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "شبكة 100 عين صغيرة",
+    "name_en": "100 Small Mesh Net",
+    "full_name": "شبكة 100 عين صغيرة (100 Small Mesh Net)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "شبكة 120 عين كبيرة",
+    "name_en": "120 Large Mesh Net",
+    "full_name": "شبكة 120 عين كبيرة (120 Large Mesh Net)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "غربال رقيق",
+    "name_en": "Fine Sieve",
+    "full_name": "غربال رقيق (Fine Sieve)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "دوليو",
+    "name_en": "Dolly/Sleeve",
+    "full_name": "دوليو (Dolly/Sleeve)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "ماء قاطع 617",
+    "name_en": "Cutting Fluid/Water 617",
+    "full_name": "ماء قاطع 617 (Cutting Fluid/Water 617)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "ماء قاطع 40",
+    "name_en": "Cutting Fluid/Water 40",
+    "full_name": "ماء قاطع 40 (Cutting Fluid/Water 40)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "فيراطي",
+    "name_en": "Ferati",
+    "full_name": "فيراطي (Ferati)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "الفركاري",
+    "name_en": "Al-Farkari",
+    "full_name": "الفركاري (Al-Farkari)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "فریور",
+    "name_en": "Frayeur",
+    "full_name": "فریور (Frayeur)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "رويضة كومبلي",
+    "name_en": "Complete Wheel",
+    "full_name": "رويضة كومبلي (Complete Wheel)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "رويضة عادي",
+    "name_en": "Regular Wheel",
+    "full_name": "رويضة عادي (Regular Wheel)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "بوسيار",
+    "name_en": "Busier/Drill bit",
+    "full_name": "بوسيار (Busier/Drill bit)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "مانكو عتلة 1",
+    "name_en": "Handle Lever 1",
+    "full_name": "مانكو عتلة 1 (Handle Lever 1)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "مانكو عتلة",
+    "name_en": "Handle Lever",
+    "full_name": "مانكو عتلة (Handle Lever)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "مانكو بالا",
+    "name_en": "Handle Shovel",
+    "full_name": "مانكو بالا (Handle Shovel)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "مانكو عادي بالا",
+    "name_en": "Regular Handle Shovel",
+    "full_name": "مانكو عادي بالا (Regular Handle Shovel)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "طالاكيت للمتر",
+    "name_en": "Talaquite per Meter",
+    "full_name": "طالاكيت للمتر (Talaquite per Meter)",
+    "specifications": "N/A",
+    "variants": []
+  },
+  {
+    "category": "",
+    "name_ar": "الزنك",
+    "name_en": "Zinc",
+    "full_name": "الزنك (Zinc)",
+    "specifications": "\"2 , 3 \"",
+    "variants": [
+      {
+        "id": "الزنك (Zinc)_\"2",
+        "specification": "\"2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "الزنك (Zinc)_3 \"",
+        "specification": "3 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "فوكادر عادي",
+    "name_en": "Regular Focadre/Frame",
+    "full_name": "فوكادر عادي (Regular Focadre/Frame)",
+    "specifications": "\"40 , 60 \"",
+    "variants": [
+      {
+        "id": "فوكادر عادي (Regular Focadre/Frame)_\"40",
+        "specification": "\"40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "فوكادر عادي (Regular Focadre/Frame)_60 \"",
+        "specification": "60 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "سكة",
+    "name_en": "Rail",
+    "full_name": "سكة (Rail)",
+    "specifications": "\"40 , 60 \"",
+    "variants": [
+      {
+        "id": "سكة (Rail)_\"40",
+        "specification": "\"40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "سكة (Rail)_60 \"",
+        "specification": "60 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "جعبة مخروطة",
+    "name_en": "Turned Pipe/Tube",
+    "full_name": "جعبة مخروطة (Turned Pipe/Tube)",
+    "specifications": "\"20 , 25 , 30 , 40 \"",
+    "variants": [
+      {
+        "id": "جعبة مخروطة (Turned Pipe/Tube)_\"20",
+        "specification": "\"20",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "جعبة مخروطة (Turned Pipe/Tube)_25",
+        "specification": "25",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "جعبة مخروطة (Turned Pipe/Tube)_30",
+        "specification": "30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "جعبة مخروطة (Turned Pipe/Tube)_40 \"",
+        "specification": "40 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "شبكة جرادي",
+    "name_en": "Jaradi Mesh/Net",
+    "full_name": "شبكة جرادي (Jaradi Mesh/Net)",
+    "specifications": "\"1m , 1.5 , 1.5/6 , 1.5/8 , 8/2 , 6/2 , 5/2 \"",
+    "variants": [
+      {
+        "id": "شبكة جرادي (Jaradi Mesh/Net)_\"1m",
+        "specification": "\"1m",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "شبكة جرادي (Jaradi Mesh/Net)_1.5",
+        "specification": "1.5",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "شبكة جرادي (Jaradi Mesh/Net)_1.5/6",
+        "specification": "1.5/6",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "شبكة جرادي (Jaradi Mesh/Net)_1.5/8",
+        "specification": "1.5/8",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "شبكة جرادي (Jaradi Mesh/Net)_8/2",
+        "specification": "8/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      },
+      {
+        "id": "شبكة جرادي (Jaradi Mesh/Net)_6/2",
+        "specification": "6/2",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0006"
+      },
+      {
+        "id": "شبكة جرادي (Jaradi Mesh/Net)_5/2 \"",
+        "specification": "5/2 \"",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0007"
+      }
+    ]
+  },
+  {
+    "category": "",
+    "name_ar": "Size-Only Items",
+    "name_en": "",
+    "full_name": "Size-Only Items",
+    "specifications": "\"100 , 80 , 60 , 40 , 30",
+    "variants": [
+      {
+        "id": "Size-Only Items_\"100",
+        "specification": "\"100",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0001"
+      },
+      {
+        "id": "Size-Only Items_80",
+        "specification": "80",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0002"
+      },
+      {
+        "id": "Size-Only Items_60",
+        "specification": "60",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0003"
+      },
+      {
+        "id": "Size-Only Items_40",
+        "specification": "40",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0004"
+      },
+      {
+        "id": "Size-Only Items_30",
+        "specification": "30",
+        "stock": 0,
+        "price": 0.0,
+        "sku": "WM-0005"
+      }
+    ]
+  }
+]

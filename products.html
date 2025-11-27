@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>William Metal - إدارة المنتجات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="main.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #1e40af;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #1e40af;
+            border-radius: 1px;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .variant-row {
+            border-left: 3px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .variant-row:hover {
+            border-left-color: #1e40af;
+            background-color: #f8fafc;
+        }
+        
+        .search-input {
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-slate-800">William Metal</h1>
+                    </div>
+                    <div class="hidden md:block mr-10">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="index.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="index.html">
+                                <i class="fas fa-tachometer-alt ml-2"></i>لوحة التحكم
+                            </a>
+                            <a href="products.html" class="nav-link active px-3 py-2 text-sm font-medium text-slate-700" data-nav="products.html">
+                                <i class="fas fa-boxes ml-2"></i>المنتجات
+                            </a>
+                            <a href="inventory.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="inventory.html">
+                                <i class="fas fa-warehouse ml-2"></i>المخزون
+                            </a>
+                            <a href="sales.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="sales.html">
+                                <i class="fas fa-shopping-cart ml-2"></i>المبيعات
+                            </a>
+                            <a href="purchases.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="purchases.html">
+                                <i class="fas fa-truck ml-2"></i>المشتريات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="mr-4">
+                        <span class="text-sm text-slate-600" data-user-info="name">مدير النظام</span>
+                    </div>
+                    <button class="p-2 text-slate-600 hover:text-slate-800" data-action="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">إدارة المنتجات</h2>
+                    <p class="mt-1 text-sm text-slate-600">إدارة كامل فهرس المنتجات والمواصفات</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex space-x-3">
+                    <button onclick="openProductModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-plus ml-2"></i>إضافة منتج
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Search and Filters -->
+        <div class="glass-card rounded-xl p-6 mb-8 fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">البحث</label>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="ابحث عن منتج..." 
+                               class="search-input w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">الفئة</label>
+                    <select id="categoryFilter" class="w-full py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">جميع الفئات</option>
+                        <option value="أنابيب دائرية (Round Tubes)">أنابيب دائرية</option>
+                        <option value="أنابيب مربعة (Square Tubes)">أنابيب مربعة</option>
+                        <option value="زوايا (Angles)">زوايا</option>
+                        <option value="قضبان (Bars)">قضبان</option>
+                        <option value="ألواح (Sheets)">ألواح</option>
+                        <option value="شبكات (Mesh & Nets)">شبكات</option>
+                        <option value="أدوات ومعدات (Tools & Equipment)">أدوات ومعدات</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">حالة المخزون</label>
+                    <select id="stockFilter" class="w-full py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">كل الحالات</option>
+                        <option value="available">متوفر</option>
+                        <option value="low">منخفض</option>
+                        <option value="out">نفذ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="productsGrid">
+            <!-- Products will be populated here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-12">
+            <i class="fas fa-boxes text-6xl text-slate-300 mb-4"></i>
+            <h3 class="text-lg font-medium text-slate-900 mb-2">لا توجد منتجات</h3>
+            <p class="text-slate-600 mb-4">ابدأ بإضافة منتجات إلى فهرسك</p>
+            <button onclick="openProductModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                <i class="fas fa-plus ml-2"></i>إضافة أول منتج
+            </button>
+        </div>
+    </main>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-slate-900" id="modalTitle">إضافة منتج جديد</h3>
+                    <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <form id="productForm" class="p-6">
+                <div class="space-y-6">
+                    <!-- Basic Information -->
+                    <div>
+                        <h4 class="text-md font-medium text-slate-900 mb-4">المعلومات الأساسية</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">اسم المنتج (عربي)</label>
+                                <input type="text" id="productNameAr" required 
+                                       class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">اسم المنتج (إنجليزي)</label>
+                                <input type="text" id="productNameEn" 
+                                       class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">الفئة</label>
+                                <select id="productCategory" required 
+                                        class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">اختر الفئة</option>
+                                    <option value="أنابيب دائرية (Round Tubes)">أنابيب دائرية</option>
+                                    <option value="أنابيب مربعة (Square Tubes)">أنابيب مربعة</option>
+                                    <option value="زوايا (Angles)">زوايا</option>
+                                    <option value="قضبان (Bars)">قضبان</option>
+                                    <option value="ألواح (Sheets)">ألواح</option>
+                                    <option value="شبكات (Mesh & Nets)">شبكات</option>
+                                    <option value="أدوات ومعدات (Tools & Equipment)">أدوات ومعدات</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">رابط الصورة</label>
+                                <input type="url" id="productImage" 
+                                       class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">الوصف</label>
+                            <textarea id="productDescription" rows="3" 
+                                      class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Variants -->
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-md font-medium text-slate-900">المواصفات والأسعار</h4>
+                            <button type="button" onclick="addVariant()" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                                <i class="fas fa-plus ml-1"></i>إضافة مواصفة
+                            </button>
+                        </div>
+                        
+                        <div id="variantsContainer" class="space-y-3">
+                            <!-- Variant rows will be added here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6 pt-6 border-t border-slate-200">
+                    <button type="button" onclick="closeProductModal()" 
+                            class="px-4 py-2 text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                        إلغاء
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                        <i class="fas fa-save ml-2"></i>حفظ المنتج
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-slate-300">&copy; 2024 William Metal Management System. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        class ProductsManager {
+            constructor(app) {
+                this.app = app;
+                this.currentEditId = null;
+                this.filters = {
+                    search: '',
+                    category: '',
+                    stock: ''
+                };
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.renderProducts();
+                this.animateElements();
+            }
+
+            setupEventListeners() {
+                // Search and filter inputs
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.filters.search = e.target.value;
+                    this.renderProducts();
+                });
+
+                document.getElementById('categoryFilter').addEventListener('change', (e) => {
+                    this.filters.category = e.target.value;
+                    this.renderProducts();
+                });
+
+                document.getElementById('stockFilter').addEventListener('change', (e) => {
+                    this.filters.stock = e.target.value;
+                    this.renderProducts();
+                });
+
+                // Form submission
+                document.getElementById('productForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveProduct();
+                });
+            }
+
+            renderProducts() {
+                const products = this.app.getProducts(this.filters);
+                const grid = document.getElementById('productsGrid');
+                const emptyState = document.getElementById('emptyState');
+
+                if (products.length === 0) {
+                    grid.innerHTML = '';
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+
+                emptyState.classList.add('hidden');
+                grid.innerHTML = products.map(product => this.createProductCard(product)).join('');
+                
+                // Animate cards
+                anime({
+                    targets: '.product-card',
+                    translateY: [50, 0],
+                    opacity: [0, 1],
+                    delay: anime.stagger(100),
+                    duration: 600,
+                    easing: 'easeOutExpo'
+                });
+            }
+
+            createProductCard(product) {
+                const totalStock = product.variants.reduce((sum, v) => sum + v.stock, 0);
+                const avgPrice = product.variants.length > 0 ? 
+                    product.variants.reduce((sum, v) => sum + v.price, 0) / product.variants.length : 0;
+                
+                const stockStatus = totalStock === 0 ? 'out' : 
+                    product.variants.some(v => v.stock <= v.min_stock) ? 'low' : 'available';
+                
+                const stockColor = stockStatus === 'out' ? 'text-red-600 bg-red-100' :
+                                 stockStatus === 'low' ? 'text-yellow-600 bg-yellow-100' :
+                                 'text-green-600 bg-green-100';
+
+                return `
+                    <div class="product-card glass-card rounded-xl overflow-hidden fade-in">
+                        <div class="aspect-w-16 aspect-h-9 bg-slate-200">
+                            <img src="${product.image || 'https://via.placeholder.com/300x200?text=No+Image'}" 
+                                 alt="${product.name_ar}" 
+                                 class="w-full h-48 object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-start justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-slate-900 line-clamp-2">${product.name_ar}</h3>
+                                <span class="px-2 py-1 text-xs font-medium rounded-full ${stockColor}">
+                                    ${totalStock} في المخزون
+                                </span>
+                            </div>
+                            <p class="text-sm text-slate-600 mb-2">${product.category}</p>
+                            ${product.description ? `<p class="text-sm text-slate-500 mb-4 line-clamp-2">${product.description}</p>` : ''}
+                            
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <p class="text-sm text-slate-600">عدد المواصفات</p>
+                                    <p class="font-semibold text-slate-900">${product.variants.length}</p>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-sm text-slate-600">متوسط السعر</p>
+                                    <p class="font-semibold text-slate-900">${this.app.formatCurrency(avgPrice)}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button onclick="editProduct('${product.id}')" 
+                                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm transition-colors">
+                                    <i class="fas fa-edit ml-1"></i>تعديل
+                                </button>
+                                <button onclick="deleteProduct('${product.id}')" 
+                                        class="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm transition-colors">
+                                    <i class="fas fa-trash ml-1"></i>حذف
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            openProductModal(productId = null) {
+                this.currentEditId = productId;
+                const modal = document.getElementById('productModal');
+                const title = document.getElementById('modalTitle');
+                
+                if (productId) {
+                    title.textContent = 'تعديل المنتج';
+                    this.loadProductData(productId);
+                } else {
+                    title.textContent = 'إضافة منتج جديد';
+                    this.resetForm();
+                    this.addVariant(); // Add one empty variant
+                }
+                
+                modal.classList.add('show');
+            }
+
+            closeProductModal() {
+                const modal = document.getElementById('productModal');
+                modal.classList.remove('show');
+                this.currentEditId = null;
+                this.resetForm();
+            }
+
+            loadProductData(productId) {
+                const product = this.app.getProduct(productId);
+                if (!product) return;
+
+                document.getElementById('productNameAr').value = product.name_ar || '';
+                document.getElementById('productNameEn').value = product.name_en || '';
+                document.getElementById('productCategory').value = product.category || '';
+                document.getElementById('productImage').value = product.image || '';
+                document.getElementById('productDescription').value = product.description || '';
+
+                // Load variants
+                const container = document.getElementById('variantsContainer');
+                container.innerHTML = '';
+                
+                product.variants.forEach((variant, index) => {
+                    this.addVariant(variant, index);
+                });
+            }
+
+            resetForm() {
+                document.getElementById('productForm').reset();
+                document.getElementById('variantsContainer').innerHTML = '';
+            }
+
+            addVariant(variantData = null, index = null) {
+                const container = document.getElementById('variantsContainer');
+                const variantIndex = index !== null ? index : container.children.length;
+                
+                const variantRow = document.createElement('div');
+                variantRow.className = 'variant-row p-4 bg-slate-50 rounded-lg';
+                variantRow.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">المواصفة</label>
+                            <input type="text" name="variants[${variantIndex}][specification]" required
+                                   value="${variantData?.specification || ''}"
+                                   class="w-full px-2 py-1 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">SKU</label>
+                            <input type="text" name="variants[${variantIndex}][sku]" required
+                                   value="${variantData?.sku || ''}"
+                                   class="w-full px-2 py-1 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">السعر</label>
+                            <input type="number" name="variants[${variantIndex}][price]" required step="0.01"
+                                   value="${variantData?.price || ''}"
+                                   class="w-full px-2 py-1 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">التكلفة</label>
+                            <input type="number" name="variants[${variantIndex}][cost]" step="0.01"
+                                   value="${variantData?.cost || ''}"
+                                   class="w-full px-2 py-1 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="button" onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                    class="w-full bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-sm transition-colors">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(variantRow);
+            }
+
+            saveProduct() {
+                const formData = new FormData(document.getElementById('productForm'));
+                
+                const productData = {
+                    name_ar: formData.get('productNameAr'),
+                    name_en: formData.get('productNameEn'),
+                    category: formData.get('productCategory'),
+                    image: formData.get('productImage'),
+                    description: formData.get('productDescription'),
+                    variants: []
+                };
+
+                // Extract variants data
+                const variantElements = document.querySelectorAll('#variantsContainer .variant-row');
+                variantElements.forEach((element, index) => {
+                    const variant = {
+                        id: `var_${String(Date.now()).slice(-6)}_${index}`,
+                        specification: element.querySelector(`input[name="variants[${index}][specification]"]`).value,
+                        sku: element.querySelector(`input[name="variants[${index}][sku]"]`).value,
+                        price: parseFloat(element.querySelector(`input[name="variants[${index}][price]"]`).value),
+                        cost: parseFloat(element.querySelector(`input[name="variants[${index}][cost]"]`).value || 0),
+                        stock: 0,
+                        min_stock: 20,
+                        max_stock: 200
+                    };
+                    productData.variants.push(variant);
+                });
+
+                if (this.currentEditId) {
+                    // Update existing product
+                    this.app.updateProduct(this.currentEditId, productData);
+                    this.app.showNotification('تم تحديث المنتج بنجاح', 'success');
+                } else {
+                    // Add new product
+                    this.app.addProduct(productData);
+                    this.app.showNotification('تم إضافة المنتج بنجاح', 'success');
+                }
+
+                this.closeProductModal();
+                this.renderProducts();
+            }
+
+            deleteProduct(productId) {
+                if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+                    if (this.app.deleteProduct(productId)) {
+                        this.app.showNotification('تم حذف المنتج بنجاح', 'success');
+                        this.renderProducts();
+                    } else {
+                        this.app.showNotification('فشل حذف المنتج', 'error');
+                    }
+                }
+            }
+
+            animateElements() {
+                // Animate fade-in elements
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+        }
+
+        // Global functions for onclick handlers
+        let productsManager;
+
+        function openProductModal(productId = null) {
+            productsManager.openProductModal(productId);
+        }
+
+        function closeProductModal() {
+            productsManager.closeProductModal();
+        }
+
+        function addVariant(variantData = null, index = null) {
+            productsManager.addVariant(variantData, index);
+        }
+
+        function editProduct(productId) {
+            productsManager.openProductModal(productId);
+        }
+
+        function deleteProduct(productId) {
+            productsManager.deleteProduct(productId);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (app.checkAuth()) {
+                productsManager = new ProductsManager(app);
+            } else {
+                app.showNotification('يرجى تسجيل الدخول', 'error');
+                setTimeout(() => {
+                    app.login('admin', 'admin123');
+                    productsManager = new ProductsManager(app);
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

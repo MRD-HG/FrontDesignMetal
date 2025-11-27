@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>William Metal - إدارة المخزون</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="main.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #1e40af;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #1e40af;
+            border-radius: 1px;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .stock-row {
+            transition: all 0.3s ease;
+        }
+        
+        .stock-row:hover {
+            background-color: #f8fafc;
+            transform: translateX(-5px);
+        }
+        
+        .stock-out {
+            background-color: #fef2f2;
+            border-right: 4px solid #dc2626;
+        }
+        
+        .stock-low {
+            background-color: #fffbeb;
+            border-right: 4px solid #d97706;
+        }
+        
+        .stock-good {
+            background-color: #f0fdf4;
+            border-right: 4px solid #16a34a;
+        }
+        
+        .search-input {
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-slate-800">William Metal</h1>
+                    </div>
+                    <div class="hidden md:block mr-10">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="index.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="index.html">
+                                <i class="fas fa-tachometer-alt ml-2"></i>لوحة التحكم
+                            </a>
+                            <a href="products.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="products.html">
+                                <i class="fas fa-boxes ml-2"></i>المنتجات
+                            </a>
+                            <a href="inventory.html" class="nav-link active px-3 py-2 text-sm font-medium text-slate-700" data-nav="inventory.html">
+                                <i class="fas fa-warehouse ml-2"></i>المخزون
+                            </a>
+                            <a href="sales.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="sales.html">
+                                <i class="fas fa-shopping-cart ml-2"></i>المبيعات
+                            </a>
+                            <a href="purchases.html" class="nav-link px-3 py-2 text-sm font-medium text-slate-700" data-nav="purchases.html">
+                                <i class="fas fa-truck ml-2"></i>المشتريات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="mr-4">
+                        <span class="text-sm text-slate-600" data-user-info="name">مدير النظام</span>
+                    </div>
+                    <button class="p-2 text-slate-600 hover:text-slate-800" data-action="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">إدارة المخزون</h2>
+                    <p class="mt-1 text-sm text-slate-600">متابعة مستويات المخزون وحركة الأصناف</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex space-x-3">
+                    <button onclick="openStockModal()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-plus ml-2"></i>إضافة مخزون
+                    </button>
+                    <button onclick="openAdjustmentModal()" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-adjust ml-2"></i>تعديل المخزون
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="glass-card rounded-xl p-6 fade-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">إجمالي الأصناف</p>
+                        <p class="text-3xl font-bold text-slate-900" id="totalItems">0</p>
+                    </div>
+                    <div class="p-3 bg-blue-100 rounded-full">
+                        <i class="fas fa-boxes text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-xl p-6 fade-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">القيمة الإجمالية</p>
+                        <p class="text-3xl font-bold text-slate-900" id="totalValue">0</p>
+                    </div>
+                    <div class="p-3 bg-green-100 rounded-full">
+                        <i class="fas fa-coins text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-xl p-6 fade-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">منخفض المخزون</p>
+                        <p class="text-3xl font-bold text-yellow-600" id="lowStockItems">0</p>
+                    </div>
+                    <div class="p-3 bg-yellow-100 rounded-full">
+                        <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-xl p-6 fade-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">نفذ المخزون</p>
+                        <p class="text-3xl font-bold text-red-600" id="outOfStockItems">0</p>
+                    </div>
+                    <div class="p-3 bg-red-100 rounded-full">
+                        <i class="fas fa-times-circle text-red-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="glass-card rounded-xl p-6 mb-8 fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">البحث</label>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="ابحث عن منتج أو مواصفة..." 
+                               class="search-input w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">الفئة</label>
+                    <select id="categoryFilter" class="w-full py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">جميع الفئات</option>
+                        <option value="أنابيب دائرية (Round Tubes)">أنابيب دائرية</option>
+                        <option value="أنابيب مربعة (Square Tubes)">أنابيب مربعة</option>
+                        <option value="زوايا (Angles)">زوايا</option>
+                        <option value="قضبان (Bars)">قضبان</option>
+                        <option value="ألواح (Sheets)">ألواح</option>
+                        <option value="شبكات (Mesh & Nets)">شبكات</option>
+                        <option value="أدوات ومعدات (Tools & Equipment)">أدوات ومعدات</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">حالة المخزون</label>
+                    <select id="stockFilter" class="w-full py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">جميع الحالات</option>
+                        <option value="available">متوفر</option>
+                        <option value="low">منخفض</option>
+                        <option value="out">نفذ</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button onclick="exportInventory()" class="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-download ml-2"></i>تصدير
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Table -->
+        <div class="glass-card rounded-xl overflow-hidden fade-in">
+            <div class="px-6 py-4 border-b border-slate-200">
+                <h3 class="text-lg font-semibold text-slate-900">قائمة المخزون</h3>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">المنتج</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">المواصفة</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">الفئة</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">SKU</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">المخزون</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">الحد الأدنى</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">السعر</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTableBody" class="bg-white divide-y divide-slate-200">
+                        <!-- Table rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Stock Movement Modal -->
+        <div id="stockModal" class="modal">
+            <div class="modal-content">
+                <div class="p-6 border-b border-slate-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-slate-900">إضافة مخزون</h3>
+                        <button onclick="closeStockModal()" class="text-slate-400 hover:text-slate-600">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <form id="stockForm" class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">المنتج</label>
+                            <select id="stockProduct" required 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">اختر المنتج</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">المواصفة</label>
+                            <select id="stockVariant" required 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">اختر المواصفة</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">الكمية</label>
+                            <input type="number" id="stockQuantity" required min="1" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">النوع</label>
+                            <select id="stockType" required 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="IN">إضافة مخزون</option>
+                                <option value="OUT">إخراج مخزون</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">ملاحظات</label>
+                            <textarea id="stockNotes" rows="3" 
+                                      class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-6 pt-6 border-t border-slate-200">
+                        <button type="button" onclick="closeStockModal()" 
+                                class="px-4 py-2 text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                            إلغاء
+                        </button>
+                        <button type="submit" 
+                                class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                            <i class="fas fa-save ml-2"></i>حفظ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Stock Adjustment Modal -->
+        <div id="adjustmentModal" class="modal">
+            <div class="modal-content">
+                <div class="p-6 border-b border-slate-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-slate-900">تعديل المخزون</h3>
+                        <button onclick="closeAdjustmentModal()" class="text-slate-400 hover:text-slate-600">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <form id="adjustmentForm" class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">المنتج</label>
+                            <select id="adjustProduct" required 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">اختر المنتج</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">المواصفة</label>
+                            <select id="adjustVariant" required 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">اختر المواصفة</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">المخزون الحالي</label>
+                            <input type="number" id="currentStock" readonly 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-slate-50">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">المخزون الجديد</label>
+                            <input type="number" id="newStock" required min="0" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">سبب التعديل</label>
+                            <textarea id="adjustReason" rows="3" required
+                                      class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-6 pt-6 border-t border-slate-200">
+                        <button type="button" onclick="closeAdjustmentModal()" 
+                                class="px-4 py-2 text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                            إلغاء
+                        </button>
+                        <button type="submit" 
+                                class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors">
+                            <i class="fas fa-adjust ml-2"></i>تعديل
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-slate-300">&copy; 2024 William Metal Management System. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        class InventoryManager {
+            constructor(app) {
+                this.app = app;
+                this.filters = {
+                    search: '',
+                    category: '',
+                    stock: ''
+                };
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.updateStats();
+                this.renderInventory();
+                this.animateElements();
+            }
+
+            setupEventListeners() {
+                // Search and filter inputs
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.filters.search = e.target.value;
+                    this.renderInventory();
+                });
+
+                document.getElementById('categoryFilter').addEventListener('change', (e) => {
+                    this.filters.category = e.target.value;
+                    this.renderInventory();
+                });
+
+                document.getElementById('stockFilter').addEventListener('change', (e) => {
+                    this.filters.stock = e.target.value;
+                    this.renderInventory();
+                });
+
+                // Stock modal
+                document.getElementById('stockProduct').addEventListener('change', (e) => {
+                    this.loadProductVariants(e.target.value, 'stockVariant');
+                });
+
+                document.getElementById('adjustProduct').addEventListener('change', (e) => {
+                    this.loadProductVariants(e.target.value, 'adjustVariant');
+                });
+
+                document.getElementById('adjustVariant').addEventListener('change', (e) => {
+                    this.loadCurrentStock(e.target.value);
+                });
+
+                // Forms
+                document.getElementById('stockForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveStockMovement();
+                });
+
+                document.getElementById('adjustmentForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveStockAdjustment();
+                });
+
+                // Populate product selects
+                this.populateProductSelects();
+            }
+
+            updateStats() {
+                const allVariants = [];
+                this.app.data.products.forEach(product => {
+                    product.variants.forEach(variant => {
+                        allVariants.push({
+                            ...variant,
+                            product: product.name_ar,
+                            category: product.category
+                        });
+                    });
+                });
+
+                const totalItems = allVariants.length;
+                const totalValue = allVariants.reduce((sum, v) => sum + (v.stock * v.cost), 0);
+                const lowStockItems = allVariants.filter(v => v.stock > 0 && v.stock <= v.min_stock).length;
+                const outOfStockItems = allVariants.filter(v => v.stock === 0).length;
+
+                document.getElementById('totalItems').textContent = totalItems;
+                document.getElementById('totalValue').textContent = this.app.formatCurrency(totalValue);
+                document.getElementById('lowStockItems').textContent = lowStockItems;
+                document.getElementById('outOfStockItems').textContent = outOfStockItems;
+
+                // Animate numbers
+                this.animateNumbers();
+            }
+
+            animateNumbers() {
+                const elements = ['totalItems', 'totalValue', 'lowStockItems', 'outOfStockItems'];
+                elements.forEach(id => {
+                    const element = document.getElementById(id);
+                    anime({
+                        targets: element,
+                        scale: [0.8, 1],
+                        opacity: [0, 1],
+                        duration: 800,
+                        delay: Math.random() * 400,
+                        easing: 'easeOutElastic(1, .8)'
+                    });
+                });
+            }
+
+            renderInventory() {
+                const allVariants = [];
+                this.app.data.products.forEach(product => {
+                    product.variants.forEach(variant => {
+                        allVariants.push({
+                            ...variant,
+                            product: product.name_ar,
+                            productId: product.id,
+                            category: product.category
+                        });
+                    });
+                });
+
+                // Apply filters
+                let filteredVariants = allVariants;
+
+                if (this.filters.search) {
+                    const searchTerm = this.filters.search.toLowerCase();
+                    filteredVariants = filteredVariants.filter(v => 
+                        v.product.toLowerCase().includes(searchTerm) ||
+                        v.specification.toLowerCase().includes(searchTerm) ||
+                        v.sku.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                if (this.filters.category) {
+                    filteredVariants = filteredVariants.filter(v => v.category === this.filters.category);
+                }
+
+                if (this.filters.stock) {
+                    if (this.filters.stock === 'available') {
+                        filteredVariants = filteredVariants.filter(v => v.stock > v.min_stock);
+                    } else if (this.filters.stock === 'low') {
+                        filteredVariants = filteredVariants.filter(v => v.stock > 0 && v.stock <= v.min_stock);
+                    } else if (this.filters.stock === 'out') {
+                        filteredVariants = filteredVariants.filter(v => v.stock === 0);
+                    }
+                }
+
+                const tbody = document.getElementById('inventoryTableBody');
+                tbody.innerHTML = filteredVariants.map(variant => this.createTableRow(variant)).join('');
+
+                // Animate rows
+                anime({
+                    targets: '.stock-row',
+                    translateX: [50, 0],
+                    opacity: [0, 1],
+                    delay: anime.stagger(50),
+                    duration: 400,
+                    easing: 'easeOutExpo'
+                });
+            }
+
+            createTableRow(variant) {
+                const stockStatus = variant.stock === 0 ? 'out' : 
+                    variant.stock <= variant.min_stock ? 'low' : 'good';
+                
+                const stockClass = `stock-${stockStatus}`;
+                const stockBadge = variant.stock === 0 ? 'نفذ' :
+                    variant.stock <= variant.min_stock ? 'منخفض' : 'متوفر';
+                
+                const badgeColor = variant.stock === 0 ? 'bg-red-100 text-red-800' :
+                    variant.stock <= variant.min_stock ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-green-100 text-green-800';
+
+                return `
+                    <tr class="stock-row ${stockClass}">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-slate-900">${variant.product}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-slate-900">${variant.specification}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-slate-600">${variant.category}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-slate-900 font-mono">${variant.sku}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <div class="flex items-center justify-center">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full ${badgeColor}">
+                                    ${variant.stock}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <div class="text-sm text-slate-600">${variant.min_stock}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <div class="text-sm font-medium text-slate-900">${this.app.formatCurrency(variant.price)}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <div class="flex space-x-2">
+                                <button onclick="quickAddStock('${variant.productId}', '${variant.id}')" 
+                                        class="text-green-600 hover:text-green-800 text-sm">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button onclick="quickRemoveStock('${variant.productId}', '${variant.id}')" 
+                                        class="text-red-600 hover:text-red-800 text-sm">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            populateProductSelects() {
+                const stockProductSelect = document.getElementById('stockProduct');
+                const adjustProductSelect = document.getElementById('adjustProduct');
+                
+                const options = this.app.data.products.map(product => 
+                    `<option value="${product.id}">${product.name_ar}</option>`
+                ).join('');
+                
+                stockProductSelect.innerHTML = '<option value="">اختر المنتج</option>' + options;
+                adjustProductSelect.innerHTML = '<option value="">اختر المنتج</option>' + options;
+            }
+
+            loadProductVariants(productId, targetSelectId) {
+                const product = this.app.getProduct(productId);
+                const select = document.getElementById(targetSelectId);
+                
+                if (product) {
+                    const options = product.variants.map(variant => 
+                        `<option value="${variant.id}">${variant.specification}</option>`
+                    ).join('');
+                    select.innerHTML = '<option value="">اختر المواصفة</option>' + options;
+                }
+            }
+
+            loadCurrentStock(variantId) {
+                const allVariants = [];
+                this.app.data.products.forEach(product => {
+                    product.variants.forEach(variant => {
+                        allVariants.push(variant);
+                    });
+                });
+                
+                const variant = allVariants.find(v => v.id === variantId);
+                if (variant) {
+                    document.getElementById('currentStock').value = variant.stock;
+                }
+            }
+
+            openStockModal() {
+                document.getElementById('stockModal').classList.add('show');
+            }
+
+            closeStockModal() {
+                document.getElementById('stockModal').classList.remove('show');
+                document.getElementById('stockForm').reset();
+            }
+
+            openAdjustmentModal() {
+                document.getElementById('adjustmentModal').classList.add('show');
+            }
+
+            closeAdjustmentModal() {
+                document.getElementById('adjustmentModal').classList.remove('show');
+                document.getElementById('adjustmentForm').reset();
+            }
+
+            saveStockMovement() {
+                const productId = document.getElementById('stockProduct').value;
+                const variantId = document.getElementById('stockVariant').value;
+                const quantity = parseInt(document.getElementById('stockQuantity').value);
+                const type = document.getElementById('stockType').value;
+                const notes = document.getElementById('stockNotes').value;
+
+                if (!productId || !variantId || !quantity) {
+                    this.app.showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                    return;
+                }
+
+                const success = this.app.updateStock(productId, variantId, quantity, type, notes);
+                
+                if (success) {
+                    this.app.showNotification('تم تحديث المخزون بنجاح', 'success');
+                    this.closeStockModal();
+                    this.updateStats();
+                    this.renderInventory();
+                } else {
+                    this.app.showNotification('فشل تحديث المخزون', 'error');
+                }
+            }
+
+            saveStockAdjustment() {
+                const productId = document.getElementById('adjustProduct').value;
+                const variantId = document.getElementById('adjustVariant').value;
+                const newStock = parseInt(document.getElementById('newStock').value);
+                const reason = document.getElementById('adjustReason').value;
+
+                if (!productId || !variantId || newStock < 0 || !reason) {
+                    this.app.showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                    return;
+                }
+
+                // Get current stock to calculate difference
+                const allVariants = [];
+                this.app.data.products.forEach(product => {
+                    product.variants.forEach(variant => {
+                        allVariants.push(variant);
+                    });
+                });
+                
+                const variant = allVariants.find(v => v.id === variantId);
+                if (!variant) return;
+
+                const difference = newStock - variant.stock;
+                const type = difference > 0 ? 'IN' : 'OUT';
+
+                if (difference !== 0) {
+                    const success = this.app.updateStock(productId, variantId, Math.abs(difference), type, {
+                        type: 'ADJUSTMENT',
+                        reason: reason
+                    });
+                    
+                    if (success) {
+                        this.app.showNotification('تم تعديل المخزون بنجاح', 'success');
+                        this.closeAdjustmentModal();
+                        this.updateStats();
+                        this.renderInventory();
+                    } else {
+                        this.app.showNotification('فشل تعديل المخزون', 'error');
+                    }
+                }
+            }
+
+            quickAddStock(productId, variantId) {
+                const quantity = prompt('أدخل الكمية المراد إضافتها:');
+                if (quantity && !isNaN(quantity) && quantity > 0) {
+                    const success = this.app.updateStock(productId, variantId, parseInt(quantity), 'IN', 'Quick addition');
+                    if (success) {
+                        this.app.showNotification('تم إضافة المخزون بنجاح', 'success');
+                        this.updateStats();
+                        this.renderInventory();
+                    } else {
+                        this.app.showNotification('فشل إضافة المخزون', 'error');
+                    }
+                }
+            }
+
+            quickRemoveStock(productId, variantId) {
+                const quantity = prompt('أدخل الكمية المراد خصمها:');
+                if (quantity && !isNaN(quantity) && quantity > 0) {
+                    const success = this.app.updateStock(productId, variantId, parseInt(quantity), 'OUT', 'Quick removal');
+                    if (success) {
+                        this.app.showNotification('تم خصم المخزون بنجاح', 'success');
+                        this.updateStats();
+                        this.renderInventory();
+                    } else {
+                        this.app.showNotification('فشل خصم المخزون', 'error');
+                    }
+                }
+            }
+
+            exportInventory() {
+                const allVariants = [];
+                this.app.data.products.forEach(product => {
+                    product.variants.forEach(variant => {
+                        allVariants.push({
+                            'المنتج': product.name_ar,
+                            'المواصفة': variant.specification,
+                            'الفئة': product.category,
+                            'SKU': variant.sku,
+                            'المخزون': variant.stock,
+                            'الحد الأدنى': variant.min_stock,
+                            'السعر': variant.price,
+                            'التكلفة': variant.cost
+                        });
+                    });
+                });
+
+                // Convert to CSV
+                const csv = this.convertToCSV(allVariants);
+                this.downloadCSV(csv, 'inventory_report.csv');
+                this.app.showNotification('تم تصدير المخزون بنجاح', 'success');
+            }
+
+            convertToCSV(data) {
+                const headers = Object.keys(data[0]);
+                const csvContent = [
+                    headers.join(','),
+                    ...data.map(row => headers.map(header => `"${row[header]}"`).join(','))
+                ].join('\n');
+                
+                return csvContent;
+            }
+
+            downloadCSV(csv, filename) {
+                const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            animateElements() {
+                // Animate fade-in elements
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+        }
+
+        // Global functions for onclick handlers
+        let inventoryManager;
+
+        function openStockModal() {
+            inventoryManager.openStockModal();
+        }
+
+        function closeStockModal() {
+            inventoryManager.closeStockModal();
+        }
+
+        function openAdjustmentModal() {
+            inventoryManager.openAdjustmentModal();
+        }
+
+        function closeAdjustmentModal() {
+            inventoryManager.closeAdjustmentModal();
+        }
+
+        function quickAddStock(productId, variantId) {
+            inventoryManager.quickAddStock(productId, variantId);
+        }
+
+        function quickRemoveStock(productId, variantId) {
+            inventoryManager.quickRemoveStock(productId, variantId);
+        }
+
+        function exportInventory() {
+            inventoryManager.exportInventory();
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (app.checkAuth()) {
+                inventoryManager = new InventoryManager(app);
+            } else {
+                app.showNotification('يرجى تسجيل الدخول', 'error');
+                setTimeout(() => {
+                    app.login('admin', 'admin123');
+                    inventoryManager = new InventoryManager(app);
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
