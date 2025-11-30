@@ -1,6 +1,45 @@
 // William Metal Management System - Main JavaScript
 // Core functionality for the entire application
 
+// Flag: use remote backend if available
+const USE_REMOTE_API = true; // set false to force localStorage-only
+
+async function remoteAvailable() {
+    if (!USE_REMOTE_API) return false;
+    try {
+        // quick ping - adjust endpoint if backend exposes /health
+        const res = await fetch(`${API.BASE}/api/health`, { method: 'GET' });
+        return res.ok;
+    } catch (e) {
+        return false;
+    }
+}
+
+// Provide lightweight bridging methods used by UI managers
+async function fetchProductsRemote() {
+    try {
+        return await API.products.list();
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function fetchProductRemote(id) {
+    return API.products.get(id);
+}
+
+async function createProductRemote(body) {
+    return API.products.create(body);
+}
+
+async function updateProductRemote(id, body) {
+    return API.products.update(id, body);
+}
+
+async function deleteProductRemote(id) {
+    return API.products.delete(id);
+}
+
 class WilliamMetalApp {
     constructor() {
         this.currentUser = null;
@@ -91,24 +130,20 @@ class WilliamMetalApp {
                 this.data.products = products.map((product, index) => ({
                     id: `prod_${String(index + 1).padStart(3, '0')}`,
                     ...product,
-                    variants: product.variants.map((variant, vIndex) => ({
+                    variants: (product.variants || []).map((variant, vIndex) => ({
                         ...variant,
                         id: `var_${String(index + 1).padStart(3, '0')}_${String(vIndex + 1).padStart(3, '0')}`,
-                        price: Math.random() * 100 + 20, // Random price between 20-120
-                        cost: Math.random() * 50 + 10,   // Random cost between 10-60
-                        stock: Math.floor(Math.random() * 200), // Random stock 0-200
-                        min_stock: 20,
-                        max_stock: 200
+                        price: variant.price || (Math.random() * 100 + 20),
+                        cost: variant.cost || (Math.random() * 50 + 10),
+                        stock: typeof variant.stock === 'number' ? variant.stock : Math.floor(Math.random() * 200),
+                        min_stock: variant.min_stock ?? 20,
+                        max_stock: variant.max_stock ?? 200
                     })),
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
                 }));
                 this.saveData();
-                this.updateUI();
             })
-            .catch(error => {
-                console.error('Error loading products:', error);
-                // Create fallback sample products
+            .catch(err => {
+                console.error('Failed to load products_catalog.json', err);
                 this.createFallbackProducts();
             });
     }

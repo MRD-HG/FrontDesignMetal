@@ -8,7 +8,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script src="main.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -50,6 +49,11 @@
             color: #1e40af;
         }
         
+        .nav-link.active {
+            color: #1e40af;
+            font-weight: 600;
+        }
+        
         .nav-link.active::after {
             content: '';
             position: absolute;
@@ -84,6 +88,20 @@
             transform: translateY(0);
             transition: all 0.6s ease;
         }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Small adjustments for ECharts container when using fallback */
+        .sales-bars { padding: 8px; }
     </style>
 </head>
 <body>
@@ -115,11 +133,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <div class="mr-4">
+                <div class="flex items-center gap-4">
+                    <div>
                         <span class="text-sm text-slate-600" data-user-info="name">مدير النظام</span>
                     </div>
-                    <button class="p-2 text-slate-600 hover:text-slate-800" data-action="logout">
+                    <button class="p-2 text-slate-600 hover:text-slate-800 transition-colors" id="logoutBtn" title="تسجيل الخروج">
                         <i class="fas fa-sign-out-alt"></i>
                     </button>
                 </div>
@@ -157,7 +175,9 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-slate-600">إجمالي المنتجات</p>
-                        <p class="text-3xl font-bold text-slate-900" id="totalProducts">0</p>
+                        <p class="text-3xl font-bold text-slate-900" id="totalProducts">
+                            <span class="skeleton w-12 h-8 inline-block"></span>
+                        </p>
                     </div>
                     <div class="p-3 bg-blue-100 rounded-full">
                         <i class="fas fa-boxes text-blue-600 text-xl"></i>
@@ -169,7 +189,9 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-slate-600">قيمة المخزون</p>
-                        <p class="text-3xl font-bold text-slate-900" id="totalStockValue">0</p>
+                        <p class="text-3xl font-bold text-slate-900" id="totalStockValue">
+                            <span class="skeleton w-20 h-8 inline-block"></span>
+                        </p>
                     </div>
                     <div class="p-3 bg-green-100 rounded-full">
                         <i class="fas fa-warehouse text-green-600 text-xl"></i>
@@ -181,7 +203,9 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-slate-600">إجمالي المبيعات</p>
-                        <p class="text-3xl font-bold text-slate-900" id="totalSales">0</p>
+                        <p class="text-3xl font-bold text-slate-900" id="totalSales">
+                            <span class="skeleton w-20 h-8 inline-block"></span>
+                        </p>
                     </div>
                     <div class="p-3 bg-purple-100 rounded-full">
                         <i class="fas fa-shopping-cart text-purple-600 text-xl"></i>
@@ -193,7 +217,9 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-slate-600">تنبيهات المخزون</p>
-                        <p class="text-3xl font-bold text-red-600" id="stockAlerts">0</p>
+                        <p class="text-3xl font-bold text-red-600" id="stockAlerts">
+                            <span class="skeleton w-12 h-8 inline-block"></span>
+                        </p>
                     </div>
                     <div class="p-3 bg-red-100 rounded-full">
                         <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
@@ -225,7 +251,9 @@
                     </button>
                 </div>
                 <div class="space-y-4" id="stockAlertsList">
-                    <!-- Stock alerts will be populated here -->
+                    <div class="skeleton h-12 rounded"></div>
+                    <div class="skeleton h-12 rounded"></div>
+                    <div class="skeleton h-12 rounded"></div>
                 </div>
             </div>
         </div>
@@ -234,74 +262,26 @@
         <div class="glass-card rounded-xl p-6 fade-in">
             <h3 class="text-lg font-semibold text-slate-900 mb-6">إجراءات سريعة</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <button onclick="window.location.href='products.html'" class="flex items-center p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
-                    <div class="p-3 bg-blue-600 rounded-lg text-white mr-4">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-semibold text-slate-900">إضافة منتج</p>
-                        <p class="text-sm text-slate-600">منتج جديد للمخزون</p>
-                    </div>
+                <button onclick="window.location.href='products.html'" class="p-4 border-2 border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-right">
+                    <i class="fas fa-plus-circle text-blue-600 text-2xl mb-2"></i>
+                    <p class="font-semibold text-slate-900">إضافة منتج</p>
+                    <p class="text-sm text-slate-600">إضافة منتج جديد للنظام</p>
                 </button>
-
-                <button onclick="window.location.href='sales.html'" class="flex items-center p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
-                    <div class="p-3 bg-green-600 rounded-lg text-white mr-4">
-                        <i class="fas fa-file-invoice"></i>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-semibold text-slate-900">فاتورة جديدة</p>
-                        <p class="text-sm text-slate-600">إنشاء فاتورة مبيعات</p>
-                    </div>
+                <button onclick="window.location.href='sales.html'" class="p-4 border-2 border-green-200 rounded-lg hover:bg-green-50 transition-colors text-right">
+                    <i class="fas fa-receipt text-green-600 text-2xl mb-2"></i>
+                    <p class="font-semibold text-slate-900">إنشاء فاتورة</p>
+                    <p class="text-sm text-slate-600">إنشاء فاتورة بيع جديدة</p>
                 </button>
-
-                <button onclick="window.location.href='purchases.html'" class="flex items-center p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
-                    <div class="p-3 bg-purple-600 rounded-lg text-white mr-4">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-semibold text-slate-900">طلب شراء</p>
-                        <p class="text-sm text-slate-600">تسجيل مشتريات جديدة</p>
-                    </div>
+                <button onclick="window.location.href='purchases.html'" class="p-4 border-2 border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-right">
+                    <i class="fas fa-shopping-bag text-purple-600 text-2xl mb-2"></i>
+                    <p class="font-semibold text-slate-900">طلب شراء</p>
+                    <p class="text-sm text-slate-600">إنشاء طلب شراء جديد</p>
                 </button>
-
-                <button onclick="window.location.href='inventory.html'" class="flex items-center p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors">
-                    <div class="p-3 bg-orange-600 rounded-lg text-white mr-4">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-semibold text-slate-900">فحص المخزون</p>
-                        <p class="text-sm text-slate-600">مراجعة مستويات المخزون</p>
-                    </div>
+                <button onclick="window.location.href='inventory.html'" class="p-4 border-2 border-orange-200 rounded-lg hover:bg-orange-50 transition-colors text-right">
+                    <i class="fas fa-exchange-alt text-orange-600 text-2xl mb-2"></i>
+                    <p class="font-semibold text-slate-900">تحديث المخزون</p>
+                    <p class="text-sm text-slate-600">تعديل كميات المخزون</p>
                 </button>
-            </div>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Recent Sales -->
-            <div class="glass-card rounded-xl p-6 fade-in">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-slate-900">آخر المبيعات</h3>
-                    <button onclick="window.location.href='sales.html'" class="text-sm text-blue-600 hover:text-blue-800">
-                        عرض الكل <i class="fas fa-arrow-left"></i>
-                    </button>
-                </div>
-                <div class="space-y-4" id="recentSales">
-                    <!-- Recent sales will be populated here -->
-                </div>
-            </div>
-
-            <!-- Recent Purchases -->
-            <div class="glass-card rounded-xl p-6 fade-in">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-slate-900">آخر المشتريات</h3>
-                    <button onclick="window.location.href='purchases.html'" class="text-sm text-blue-600 hover:text-blue-800">
-                        عرض الكل <i class="fas fa-arrow-left"></i>
-                    </button>
-                </div>
-                <div class="space-y-4" id="recentPurchases">
-                    <!-- Recent purchases will be populated here -->
-                </div>
             </div>
         </div>
     </main>
@@ -313,236 +293,195 @@
         </div>
     </footer>
 
+    <!-- App scripts: utils, auth, api -->
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+
     <script>
-        // Dashboard specific functionality
-        class DashboardManager {
-            constructor(app) {
-                this.app = app;
-                this.salesChart = null;
-                this.init();
+    // Final Dashboard bootstrap — uses API + utils modules above.
+    (function () {
+        // render chart (echarts if available, otherwise fallback)
+        async function renderSalesChart(raw) {
+            const container = document.getElementById('salesChart');
+            if (!container) return;
+
+            const dataArray = Array.isArray(raw) ? raw : Array.isArray(raw?.data) ? raw.data : [];
+
+            if (dataArray.length === 0) {
+                container.innerHTML = '<div class="p-4 text-sm text-slate-600">لا توجد بيانات للمخطط</div>';
+                return;
             }
 
-            init() {
-                this.updateMetrics();
-                this.initSalesChart();
-                this.updateStockAlerts();
-                this.updateRecentActivity();
-                this.animateElements();
-            }
-
-            updateMetrics() {
-                const stats = this.app.getDashboardStats();
-                
-                document.getElementById('totalProducts').textContent = stats.totalProducts;
-                document.getElementById('totalStockValue').textContent = this.app.formatCurrency(stats.totalStockValue);
-                document.getElementById('totalSales').textContent = this.app.formatCurrency(stats.totalSales);
-                document.getElementById('stockAlerts').textContent = stats.stockAlerts;
-
-                // Animate numbers
-                this.animateNumbers();
-            }
-
-            animateNumbers() {
-                const elements = ['totalProducts', 'totalStockValue', 'totalSales', 'stockAlerts'];
-                elements.forEach(id => {
-                    const element = document.getElementById(id);
-                    anime({
-                        targets: element,
-                        scale: [0.8, 1],
-                        opacity: [0, 1],
-                        duration: 800,
-                        delay: Math.random() * 400,
-                        easing: 'easeOutElastic(1, .8)'
-                    });
-                });
-            }
-
-            initSalesChart() {
-                const chartDom = document.getElementById('salesChart');
-                this.salesChart = echarts.init(chartDom);
-                
-                const salesData = this.app.getSalesChartData();
-                
+            if (typeof echarts !== 'undefined') {
+                const labels = dataArray.map(d => d.date ?? d.label ?? '');
+                const values = dataArray.map(d => Number(d.amount ?? d.value ?? 0));
+                const chart = echarts.init(container);
                 const option = {
-                    tooltip: {
-                        trigger: 'axis',
-                        formatter: function(params) {
-                            return `${params[0].axisValue}<br/>المبيعات: ${params[0].value} درهم`;
-                        }
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data: salesData.map(d => d.date.split('-').slice(1).join('/')),
-                        axisLabel: {
-                            fontSize: 10
-                        }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        axisLabel: {
-                            formatter: '{value} درهم'
-                        }
-                    },
+                    tooltip: { trigger: 'axis', formatter: p => `${p[0].axisValue}<br/>المبيعات: ${p[0].value} درهم` },
+                    xAxis: { type: 'category', data: labels, axisLabel: { fontSize: 10 } },
+                    yAxis: { type: 'value', axisLabel: { formatter: '{value} درهم' } },
                     series: [{
-                        data: salesData.map(d => d.amount),
+                        data: values,
                         type: 'line',
                         smooth: true,
-                        lineStyle: {
-                            color: '#1e40af',
-                            width: 3
-                        },
+                        lineStyle: { color: '#1e40af', width: 3 },
                         areaStyle: {
                             color: {
                                 type: 'linear',
-                                x: 0,
-                                y: 0,
-                                x2: 0,
-                                y2: 1,
-                                colorStops: [{
-                                    offset: 0, color: 'rgba(30, 64, 175, 0.3)'
-                                }, {
-                                    offset: 1, color: 'rgba(30, 64, 175, 0.05)'
-                                }]
+                                x: 0, y: 0, x2: 0, y2: 1,
+                                colorStops: [{ offset: 0, color: 'rgba(30,64,175,0.3)' }, { offset: 1, color: 'rgba(30,64,175,0.05)' }]
                             }
                         },
-                        itemStyle: {
-                            color: '#1e40af'
-                        }
+                        itemStyle: { color: '#1e40af' }
                     }]
                 };
-
-                this.salesChart.setOption(option);
-                
-                // Make chart responsive
-                window.addEventListener('resize', () => {
-                    this.salesChart.resize();
-                });
+                chart.setOption(option);
+                window.addEventListener('resize', () => chart.resize());
+                return;
             }
 
-            updateStockAlerts() {
-                const alerts = this.app.getStockAlerts();
-                const container = document.getElementById('stockAlertsList');
-                
-                if (alerts.length === 0) {
-                    container.innerHTML = `
-                        <div class="text-center py-8 text-slate-500">
-                            <i class="fas fa-check-circle text-4xl mb-2"></i>
-                            <p>لا توجد تنبيهات مخزون</p>
-                        </div>
-                    `;
-                    return;
+            // fallback
+            container.classList.add('sales-bars');
+            const max = Math.max(...dataArray.map(d => Number(d.amount ?? d.value ?? 0)));
+            container.innerHTML = dataArray.map(d => {
+                const value = Number(d.amount ?? d.value ?? 0);
+                const label = d.date ?? d.label ?? '';
+                const pct = max > 0 ? Math.round((value / max) * 100) : 0;
+                return `<div class="flex items-center gap-2 mb-1">
+                            <div class="text-xs text-slate-600 w-20">${label}</div>
+                            <div class="bg-blue-200 h-3 rounded flex-1" title="${value}">
+                                <div style="width:${pct}%;" class="bg-blue-600 h-3 rounded"></div>
+                            </div>
+                            <div class="text-sm text-slate-700 w-16 text-right">${value}</div>
+                        </div>`;
+            }).join('');
+        }
+
+        async function loadAndRenderDashboard() {
+            try {
+                // stats
+                const stats = await API.Dashboard.stats();
+                if (stats) {
+                    const payload = stats?.data ?? stats;
+                    document.getElementById('totalProducts').textContent = payload?.totalProducts ?? 0;
+                    document.getElementById('totalStockValue').textContent = Utils.formatCurrency(payload?.totalStockValue ?? 0);
+                    document.getElementById('totalSales').textContent = Utils.formatCurrency(payload?.totalSales ?? 0);
+                    document.getElementById('stockAlerts').textContent = payload?.stockAlerts ?? payload?.lowStockCount ?? 0;
                 }
 
-                container.innerHTML = alerts.slice(0, 5).map(alert => `
-                    <div class="flex items-center justify-between p-3 ${alert.type === 'out_of_stock' ? 'bg-red-50 border-red-200' : 'bg-yellow-50 border-yellow-200'} border rounded-lg">
-                        <div class="flex items-center">
-                            <div class="p-2 ${alert.type === 'out_of_stock' ? 'bg-red-100' : 'bg-yellow-100'} rounded-full mr-3">
-                                <i class="fas ${alert.type === 'out_of_stock' ? 'fa-times-circle text-red-600' : 'fa-exclamation-triangle text-yellow-600'}"></i>
-                            </div>
-                            <div>
-                                <p class="font-medium text-slate-900">${alert.product}</p>
-                                <p class="text-sm text-slate-600">${alert.variant}</p>
-                            </div>
-                        </div>
-                        <div class="text-left">
-                            <p class="text-sm font-medium ${alert.type === 'out_of_stock' ? 'text-red-600' : 'text-yellow-600'}">
-                                ${alert.current_stock} في المخزون
-                            </p>
-                        </div>
-                    </div>
-                `).join('');
-            }
+                // sales chart
+                const chartData = await API.Dashboard.salesChart({ days: 30 });
+                await renderSalesChart(chartData);
 
-            updateRecentActivity() {
-                // Recent Sales
-                const recentSales = this.app.data.sales
-                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                    .slice(0, 5);
+                // stock alerts
+                const alerts = await API.Dashboard.stockAlerts();
+                const container = document.getElementById('stockAlertsList');
+                if (!alerts || (Array.isArray(alerts) && alerts.length === 0) || (alerts.data && alerts.data.length === 0)) {
+                    container.innerHTML = '<div class="p-4 text-sm text-slate-600">لا توجد تنبيهات مخزون</div>';
+                } else {
+                    const arr = Array.isArray(alerts) ? alerts : (alerts.data ?? []);
+                    container.innerHTML = arr.slice(0,5).map(a => {
+                        const name = a.productName ?? a.name ?? a.product ?? 'منتج';
+                        const currentStock = a.currentStock ?? a.stock ?? a.qty ?? 0;
+                        const type = (currentStock <= 0) ? 'out_of_stock' : 'low_stock';
+                        return `<div class="flex items-center justify-between p-3 ${type === 'out_of_stock' ? 'bg-red-50 border-red-200' : 'bg-yellow-50 border-yellow-200'} border rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="p-2 ${type === 'out_of_stock' ? 'bg-red-100' : 'bg-yellow-100'} rounded-full mr-3">
+                                            <i class="fas ${type === 'out_of_stock' ? 'fa-times-circle text-red-600' : 'fa-exclamation-triangle text-yellow-600'}"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-slate-900">${name}</p>
+                                            <p class="text-sm text-slate-600">${a.variant ?? ''}</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-left">
+                                        <p class="text-sm font-medium ${type === 'out_of_stock' ? 'text-red-600' : 'text-yellow-600'}">${currentStock} في المخزون</p>
+                                    </div>
+                                </div>`;
+                    }).join('');
+                }
 
-                const salesContainer = document.getElementById('recentSales');
-                salesContainer.innerHTML = recentSales.length === 0 ? 
-                    '<div class="text-center py-4 text-slate-500">لا توجد مبيعات حديثة</div>' :
-                    recentSales.map(sale => `
-                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                            <div>
-                                <p class="font-medium text-slate-900">${sale.customer?.name || 'عميل'}</p>
-                                <p class="text-sm text-slate-600">${sale.invoice_number}</p>
-                            </div>
-                            <div class="text-left">
-                                <p class="font-semibold text-slate-900">${this.app.formatCurrency(sale.total)}</p>
-                                <p class="text-sm text-slate-600">${this.app.formatDate(sale.created_at)}</p>
-                            </div>
-                        </div>
-                    `).join('');
+                // recent sales
+                const sales = await API.Sales.list({ pageSize: 5, sort: 'created_at_desc' });
+                const recentSalesContainer = document.getElementById('recentSales');
+                if (!recentSalesContainer) {
+                    // page may not have this section; ignore
+                } else {
+                    if (!sales || (Array.isArray(sales) && sales.length === 0) || (sales.data && sales.data.length === 0)) {
+                        recentSalesContainer.innerHTML = '<div class="text-center py-4 text-slate-500">لا توجد مبيعات حديثة</div>';
+                    } else {
+                        const arr = Array.isArray(sales) ? sales : (sales.data ?? []);
+                        recentSalesContainer.innerHTML = arr.slice(0,5).map(sale => {
+                            const name = sale.customer?.name ?? sale.customerName ?? 'عميل';
+                            const invoice = sale.invoiceNumber ?? sale.invoice_number ?? sale.id ?? '';
+                            return `<div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                        <div>
+                                            <p class="font-medium text-slate-900">${name}</p>
+                                            <p class="text-sm text-slate-600">${invoice}</p>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="font-semibold text-slate-900">${Utils.formatCurrency(sale.total ?? sale.amount ?? 0)}</p>
+                                            <p class="text-sm text-slate-600">${Utils.formatDate(sale.created_at ?? sale.createdAt ?? sale.date)}</p>
+                                        </div>
+                                    </div>`;
+                        }).join('');
+                    }
+                }
 
-                // Recent Purchases
-                const recentPurchases = this.app.data.purchases
-                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                    .slice(0, 5);
+                // recent purchases
+                const purchases = await API.Purchases.list({ pageSize: 5, sort: 'created_at_desc' });
+                const recentPurchasesContainer = document.getElementById('recentPurchases');
+                if (!recentPurchasesContainer) {
+                    // ignore if not present
+                } else {
+                    if (!purchases || (Array.isArray(purchases) && purchases.length === 0) || (purchases.data && purchases.data.length === 0)) {
+                        recentPurchasesContainer.innerHTML = '<div class="text-center py-4 text-slate-500">لا توجد مشتريات حديثة</div>';
+                    } else {
+                        const arr = Array.isArray(purchases) ? purchases : (purchases.data ?? []);
+                        recentPurchasesContainer.innerHTML = arr.slice(0,5).map(p => {
+                            const name = p.supplier?.name ?? p.supplierName ?? 'مورد';
+                            const num = p.purchaseNumber ?? p.purchase_number ?? p.id ?? '';
+                            return `<div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                        <div>
+                                            <p class="font-medium text-slate-900">${name}</p>
+                                            <p class="text-sm text-slate-600">${num}</p>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="font-semibold text-slate-900">${Utils.formatCurrency(p.total ?? p.amount ?? 0)}</p>
+                                            <p class="text-sm text-slate-600">${Utils.formatDate(p.created_at ?? p.createdAt ?? p.date)}</p>
+                                        </div>
+                                    </div>`;
+                        }).join('');
+                    }
+                }
 
-                const purchasesContainer = document.getElementById('recentPurchases');
-                purchasesContainer.innerHTML = recentPurchases.length === 0 ?
-                    '<div class="text-center py-4 text-slate-500">لا توجد مشتريات حديثة</div>' :
-                    recentPurchases.map(purchase => `
-                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                            <div>
-                                <p class="font-medium text-slate-900">${purchase.supplier?.name || 'مورد'}</p>
-                                <p class="text-sm text-slate-600">${purchase.purchase_number}</p>
-                            </div>
-                            <div class="text-left">
-                                <p class="font-semibold text-slate-900">${this.app.formatCurrency(purchase.total)}</p>
-                                <p class="text-sm text-slate-600">${this.app.formatDate(purchase.created_at)}</p>
-                            </div>
-                        </div>
-                    `).join('');
-            }
-
-            animateElements() {
-                // Animate fade-in elements
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                        }
-                    });
-                });
-
-                document.querySelectorAll('.fade-in').forEach(el => {
-                    observer.observe(el);
-                });
-
-                // Animate metric cards
-                anime({
-                    targets: '.metric-card',
-                    translateY: [50, 0],
-                    opacity: [0, 1],
-                    delay: anime.stagger(100),
-                    duration: 800,
-                    easing: 'easeOutExpo'
-                });
+            } catch (err) {
+                console.error('Dashboard load error', err);
+                Utils.showNotification?.('حدث خطأ أثناء تحميل لوحة التحكم', 'error');
             }
         }
 
-        // Initialize dashboard when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            if (app.checkAuth()) {
-                new DashboardManager(app);
-            } else {
-                // Show login modal or redirect
-                app.showNotification('يرجى تسجيل الدخول للوصول إلى لوحة التحكم', 'error');
-                setTimeout(() => {
-                    // For demo purposes, auto-login as admin
-                    app.login('admin', 'admin123');
-                    new DashboardManager(app);
-                }, 1000);
-            }
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize helpers and auth
+            Utils.setActiveNav && Utils.setActiveNav('index.html');
+            await Auth.init();
+            Utils.updateUserInfo && Utils.updateUserInfo();
+
+            // logout
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) logoutBtn.addEventListener('click', () => { Auth.logout(); });
+
+            // Load dashboard data
+            await loadAndRenderDashboard();
+
+            // fade-in observer
+            const observer = new IntersectionObserver((entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }));
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+            anime({ targets: '.metric-card', translateY: [50,0], opacity: [0,1], delay: anime.stagger(100), duration: 800, easing: 'easeOutExpo' });
         });
+    })();
     </script>
 </body>
 </html>

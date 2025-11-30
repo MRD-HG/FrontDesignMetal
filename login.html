@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>William Metal - تسجيل الدخول</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .input-field:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .login-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .error-message {
+            background-color: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #c33;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        .success-message {
+            background-color: #efe;
+            color: #3c3;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #3c3;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .logo-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container w-full max-w-md px-4">
+        <div class="glass-card rounded-2xl p-8">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold logo-text mb-2">William Metal</h1>
+                <p class="text-gray-600 text-sm">نظام إدارة المخزون والمبيعات</p>
+            </div>
+
+            <!-- Messages -->
+            <div id="messageContainer" class="mb-6"></div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-4">
+                <!-- Username -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-user ml-2"></i>اسم المستخدم
+                    </label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="input-field w-full px-4 py-3 rounded-lg focus:outline-none"
+                        placeholder="أدخل اسم المستخدم"
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-lock ml-2"></i>كلمة المرور
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="input-field w-full px-4 py-3 rounded-lg focus:outline-none"
+                            placeholder="أدخل كلمة المرور"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button 
+                            type="button" 
+                            class="absolute left-3 top-3 text-gray-600 hover:text-gray-800"
+                            onclick="togglePasswordVisibility()"
+                        >
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="flex items-center">
+                    <input 
+                        type="checkbox" 
+                        id="rememberMe" 
+                        name="rememberMe"
+                        class="w-4 h-4 rounded border-gray-300 text-purple-600 cursor-pointer"
+                    >
+                    <label for="rememberMe" class="mr-2 text-sm text-gray-600 cursor-pointer">
+                        تذكرني
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="login-btn w-full text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
+                    id="submitBtn"
+                >
+                    <span id="btnText">تسجيل الدخول</span>
+                    <span id="btnSpinner" class="loading-spinner hidden"></span>
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-white text-gray-500">أو</span>
+                </div>
+            </div>
+
+            <!-- Demo Credentials -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <p class="text-sm font-medium text-blue-900 mb-2">
+                    <i class="fas fa-info-circle ml-2"></i>بيانات تجريبية
+                </p>
+                <p class="text-xs text-blue-700 mb-1">المستخدم: <code class="bg-white px-2 py-1 rounded">admin</code></p>
+                <p class="text-xs text-blue-700">كلمة المرور: <code class="bg-white px-2 py-1 rounded">password</code></p>
+            </div>
+
+            <!-- Footer -->
+            <p class="text-center text-xs text-gray-500 mt-6">
+                <i class="fas fa-lock ml-1"></i>اتصالك آمن ومشفر
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        const LoginManager = {
+            async handleLogin(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                const submitBtn = document.querySelector('button[type="submit"]');
+
+                if (!username || !password) {
+                    alert('يرجى ملء جميع الحقول');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="loading-spinner"></span> جاري...';
+
+                try {
+                    const result = await Auth.login(username, password);
+
+                    if (result && result.success) {
+                        // Redirect to index and replace history entry
+                        location.replace('index.html');
+                        return;
+                    }
+
+                    alert('خطأ: ' + (result?.message || 'فشل تسجيل الدخول'));
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('خطأ في الاتصال: ' + (error?.message || error));
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'تسجيل الدخول';
+                }
+            },
+
+            init() {
+                const form = document.getElementById('loginForm');
+                if (form) {
+                    form.addEventListener('submit', (e) => this.handleLogin(e));
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            LoginManager.init();
+        });
+    </script>
+</body>
+</html>
