@@ -1,5 +1,8 @@
 // js/inventory.js
 (function () {
+  let selectedProductId = null;
+  let selectedVariantId = null;
+
   // local helper shortcuts
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => Array.from(document.querySelectorAll(s));
@@ -387,34 +390,39 @@
     }
   }
 
-  // submit adjustment (set absolute stock)
-  async function onSubmitAdjustForm() {
-    const productId = $('#adjustProduct').value;
-    const variantId = $('#adjustVariant').value;
-    const newStock = Number($('#newStock').value || 0);
-    const reason = $('#adjustReason').value || '';
+  // submit adjustment (set absolute stock)// js/inventory.js
+// (only the changed functions / fixes shown; keep the rest of your file as-is)
+async function onSubmitAdjustForm() {
+  const productId = $('#adjustProduct').value;
+  const variantId = $('#adjustVariant').value;
+  const newStock = Number($('#newStock').value || 0);
+  const reason = $('#adjustReason').value || '';
 
-    if (!productId || !variantId || isNaN(newStock) || newStock < 0 || !reason) {
-      Utils.showNotification('يرجى ملء الحقول بشكل صحيح', 'error');
-      return;
-    }
-
-    try {
-      const payload = {
-        productId,
-        variantId,
-        newStock,
-        reason
-      };
-      await API.Inventory.adjustStock(payload);
-      Utils.showNotification('تم تعديل المخزون', 'success');
-      await refreshData();
-      closeAdjustModal();
-    } catch (err) {
-      console.error('adjustStock error', err);
-      Utils.showNotification('فشل تعديل المخزون', 'error');
-    }
+  if (!productId || !variantId || isNaN(newStock) || newStock < 0 || !reason) {
+    Utils.showNotification('يرجى ملء الحقول بشكل صحيح', 'error');
+    return;
   }
+
+  try {
+    const payload = {
+      productId,
+      variantId,
+      newStock,
+      reason
+    };
+    // call API properly
+    await API.Inventory.adjustStock(payload);
+
+    Utils.showNotification('تم تعديل المخزون', 'success');
+    await refreshData();
+    closeAdjustModal();
+  } catch (err) {
+    console.error('adjustStock error', err);
+    const msg = err?.message || 'فشل تعديل المخزون';
+    Utils.showNotification(msg, 'error');
+  }
+}
+
 
   // quick + / - actions from table
   async function quickUpdateStock(productId, variantId, type) {
