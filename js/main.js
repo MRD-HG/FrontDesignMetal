@@ -8,7 +8,8 @@ async function remoteAvailable() {
     if (!USE_REMOTE_API) return false;
     try {
         // quick ping - adjust endpoint if backend exposes /health
-        const res = await fetch(`${API.BASE}/api/health`, { method: 'GET' });
+        const base = (typeof API_BASE !== 'undefined' && API_BASE) ? API_BASE : (window.location ? window.location.origin : '');
+        const res = await fetch(`${base}/api/health`, { method: 'GET' });
         return res.ok;
     } catch (e) {
         return false;
@@ -18,26 +19,26 @@ async function remoteAvailable() {
 // Provide lightweight bridging methods used by UI managers
 async function fetchProductsRemote() {
     try {
-        return await API.products.list();
+        return await API.Products.list();
     } catch (e) {
         throw e;
     }
 }
 
 async function fetchProductRemote(id) {
-    return API.products.get(id);
+    return API.Products.get(id);
 }
 
 async function createProductRemote(body) {
-    return API.products.create(body);
+    return API.Products.create(body);
 }
 
 async function updateProductRemote(id, body) {
-    return API.products.update(id, body);
+    return API.Products.update(id, body);
 }
 
 async function deleteProductRemote(id) {
-    return API.products.delete(id);
+    return API.Products.delete(id);
 }
 
 class WilliamMetalApp {
@@ -125,7 +126,10 @@ class WilliamMetalApp {
     loadSampleProducts() {
         // Load products from the JSON catalog
         fetch('products_catalog.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('catalog missing');
+                return response.json();
+            })
             .then(products => {
                 this.data.products = products.map((product, index) => ({
                     id: `prod_${String(index + 1).padStart(3, '0')}`,
@@ -143,7 +147,7 @@ class WilliamMetalApp {
                 this.saveData();
             })
             .catch(err => {
-                console.error('Failed to load products_catalog.json', err);
+                console.warn('products_catalog.json not available, using fallback data', err?.message || err);
                 this.createFallbackProducts();
             });
     }

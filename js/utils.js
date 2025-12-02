@@ -69,6 +69,17 @@ const Utils = (function () {
     } catch (e) {}
   }
 
+  function formatDate(value) {
+    try {
+      if (!value) return '';
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return value;
+      return d.toLocaleDateString('ar-MA');
+    } catch (e) {
+      return value;
+    }
+  }
+
   function updateUserInfo(user) {
     // if you have user info from auth, call Utils.updateUserInfo({ name: '...' })
     try {
@@ -83,5 +94,5 @@ const Utils = (function () {
     } catch (e) {}
   }
 
-  return { showNotification, formatCurrency, setActiveNav, updateUserInfo };
+  return { showNotification, formatCurrency, formatDate, setActiveNav, updateUserInfo };
 })();

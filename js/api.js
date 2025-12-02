@@ -3,14 +3,20 @@
 const API_BASE = (function(){
   // use explicit host if set, otherwise relative to current origin
   try {
-    // prefer environment value if exists (you can change here)
+    const fromWindow = (typeof window !== 'undefined' && window.API_BASE) ? window.API_BASE : null;
+    if (fromWindow) return String(fromWindow).replace(/\/+$/, '');
+    // default to provided backend
     return 'https://localhost:5062';
-  } catch (e) { return ''; }
+  } catch (e) {
+    if (typeof window !== 'undefined' && window.location) return window.location.origin;
+    return '';
+  }
 })();
 
 const API = (function () {
   async function request(path, opts = {}) {
-    const url = path.startsWith('http') ? path : `${API_BASE}${path}`;
+    const base = API_BASE || '';
+    const url = path.startsWith('http') ? path : `${base}${path}`;
     const headers = Object.assign({}, opts.headers || {});
     if (!headers['Content-Type']) headers['Content-Type'] = 'application/json';
 
@@ -114,8 +120,23 @@ const API = (function () {
     invoiceNumber: () => request('/api/Sales/invoice-number')
   };
 
-  return { request, Auth, Dashboard, Inventory, Products, Purchases, Sales };
+  const Invoices = {
+    list: () => request('/api/Invoices'),
+    get: (saleId) => request(`/api/Invoices/${saleId}`),
+    pdf: async (saleId) => {
+      const base = API_BASE || '';
+      const token = window.Auth && Auth.getToken ? Auth.getToken() : null;
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`${base}/api/Invoices/${saleId}/pdf`, { headers });
+      if (!res.ok) throw new Error('Failed to fetch invoice PDF');
+      return res;
+    }
+  };
+
+  return { request, Auth, Dashboard, Inventory, Products, Purchases, Sales, Invoices };
 })();
 
 // expose globally
 window.API = API;
+window.API_BASE = API_BASE;

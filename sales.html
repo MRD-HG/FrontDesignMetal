@@ -15,7 +15,6 @@
     <script src="js/sales.js"></script>
    
 
-    <script type="module" src="js/sales.js" defer></script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
@@ -1607,15 +1606,11 @@
       }
 
       // Initialize when DOM is loaded
-      document.addEventListener("DOMContentLoaded", () => {
-        if (app.checkAuth()) {
+      document.addEventListener("DOMContentLoaded", async () => {
+        if (app.checkAuth && app.checkAuth()) {
           salesManager = new SalesManager(app);
         } else {
-          app.showNotification("يرجى تسجيل الدخول", "error");
-          setTimeout(() => {
-            app.login("admin", "admin123");
-            salesManager = new SalesManager(app);
-          }, 1000);
+          window.location.href = "login.html";
         }
       });
     </script>

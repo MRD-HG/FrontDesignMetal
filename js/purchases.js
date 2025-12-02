@@ -865,17 +865,6 @@
     });
   }
 
-  // Exported global functions for inline buttons in HTML
-  window.Purchases = {
-    addPurchaseItem,
-    updatePurchaseItemQuantity,
-    updatePurchaseItemCost,
-    removePurchaseItem,
-    deletePurchase,
-    viewPurchase,
-    updatePurchaseStatusPrompt,
-    exportPurchases,
-  };
 
   // Initialize page
   document.addEventListener("DOMContentLoaded", async () => {

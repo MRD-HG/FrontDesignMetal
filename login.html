@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -243,15 +243,15 @@
                 submitBtn.innerHTML = '<span class="loading-spinner"></span> جاري...';
 
                 try {
-                    const result = await Auth.login(username, password);
+                    const token = await Auth.login(username, password);
 
-                    if (result && result.success) {
+                    if (token) {
                         // Redirect to index and replace history entry
                         location.replace('index.html');
                         return;
                     }
 
-                    alert('خطأ: ' + (result?.message || 'فشل تسجيل الدخول'));
+                    alert('خطأ: ' + ('فشل الدخول: تحقق من البيانات'));
                 } catch (error) {
                     console.error('Login error:', error);
                     alert('خطأ في الاتصال: ' + (error?.message || error));
@@ -275,3 +275,4 @@
     </script>
 </body>
 </html>
+
