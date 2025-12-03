@@ -527,7 +527,7 @@
                 <input
                   type="number"
                   id="taxRate"
-                  value="10"
+                  value="20"
                   min="0"
                   max="100"
                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -655,9 +655,49 @@
 
         init() {
           this.setupEventListeners();
-          this.updateStats();
-          this.renderSales();
-          this.animateElements();
+          this.loadFromApi()
+            .then(() => {
+              this.updateStats();
+              this.renderSales();
+              this.animateElements();
+            })
+            .catch((err) => {
+              console.error("Load API data error", err);
+              this.updateStats();
+              this.renderSales();
+              this.animateElements();
+            });
+        }
+
+        async loadFromApi() {
+          try {
+            const prodRes = await API.Products.list();
+            this.app.data.products = prodRes?.data ?? prodRes ?? [];
+          } catch (e) {
+            console.error("Products load failed", e);
+            this.app.data.products = this.app.data.products || [];
+          }
+
+          try {
+            const salesRes = await API.Sales.list();
+            const arr = salesRes?.data ?? salesRes ?? [];
+            this.app.data.sales = Array.isArray(arr)
+              ? arr.map((s) => ({
+                  id: s.id,
+                  invoice_number: s.invoiceNumber ?? s.invoice_number ?? s.id,
+                  customer: { name: s.customer?.name || "غير محدد" },
+                  items: s.items || [],
+                  subtotal: s.subtotal ?? 0,
+                  tax: s.tax ?? 0,
+                  total: s.total ?? 0,
+                  created_at: s.createdAt ?? s.created_at ?? s.date ?? "",
+                  status: s.status ?? "COMPLETED",
+                }))
+              : [];
+          } catch (e) {
+            console.error("Sales load failed", e);
+            this.app.data.sales = this.app.data.sales || [];
+          }
         }
 
         setupEventListeners() {
@@ -999,11 +1039,11 @@
               item.product_id === productId && item.variant_id === variantId
           );
 
-          if (existingItem) {
-            if (existingItem.quantity < variant.stock) {
-              existingItem.quantity += 1;
-              existingItem.total_price =
-                existingItem.quantity * existingItem.unit_price;
+            if (existingItem) {
+              if (existingItem.quantity < variant.stock) {
+                existingItem.quantity += 1;
+                existingItem.total_price =
+                  existingItem.quantity * existingItem.unit_price;
             } else {
               this.app.showNotification(
                 "الكمية المطلوبة غير متوفرة في المخزون",
@@ -1011,17 +1051,17 @@
               );
               return;
             }
-          } else {
-            this.invoiceItems.push({
-              product_id: productId,
-              variant_id: variantId,
-              product_name: product.name_ar,
-              variant_name: variant.specification,
-              quantity: 1,
-              unit_price: variant.price,
-              total_price: variant.price,
-            });
-          }
+            } else {
+              this.invoiceItems.push({
+                product_id: productId,
+                variant_id: variantId,
+                product_name: product.nameFr ?? product.name_fr ?? product.nameAr ?? product.name_ar ?? product.name ?? "Produit",
+                variant_name: variant.specification ?? variant.name ?? "",
+                quantity: 1,
+                unit_price: variant.price,
+                total_price: variant.price,
+              });
+            }
 
           this.closeProductSelector();
           this.renderInvoiceItems();
@@ -1032,30 +1072,25 @@
           const container = document.getElementById("invoiceItems");
           container.innerHTML = this.invoiceItems
             .map(
-              (item, index) => `
+              (item, index) => {
+                const name = item.product_name || "Produit";
+                const variant = item.variant_name || "";
+                return `
                     <div class="invoice-item p-4 border border-slate-200 rounded-lg">
                         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
                             <div class="md:col-span-2">
-                                <div class="font-medium text-slate-900">${
-                                  item.product_name
-                                }</div>
-                                <div class="text-sm text-slate-600">${
-                                  item.variant_name
-                                }</div>
+                                <div class="font-medium text-slate-900">${name}</div>
+                                <div class="text-sm text-slate-600">${variant}</div>
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">الكمية</label>
-                                <input type="number" min="1" value="${
-                                  item.quantity
-                                }" 
+                                <label class="block text-xs font-medium text-slate-700 mb-1">??????</label>
+                                <input type="number" min="0" step="0.01" value="${item.quantity}" 
                                        onchange="updateItemQuantity(${index}, this.value)"
                                        class="w-full px-2 py-1 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-blue-500">
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">السعر</label>
-                                <input type="number" min="0" step="0.01" value="${
-                                  item.unit_price
-                                }" 
+                                <label class="block text-xs font-medium text-slate-700 mb-1">?????</label>
+                                <input type="number" min="0" step="0.01" value="${item.unit_price}" 
                                        onchange="updateItemPrice(${index}, this.value)"
                                        class="w-full px-2 py-1 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-blue-500">
                             </div>
@@ -1072,27 +1107,30 @@
                             </div>
                         </div>
                     </div>
-                `
+                `;
+              }
             )
             .join("");
         }
+      
 
         updateItemQuantity(index, quantity) {
           const item = this.invoiceItems[index];
           const product = this.app.getProduct(item.product_id);
-          const variant = product.variants.find(
-            (v) => v.id === item.variant_id
-          );
+          const variant = product?.variants?.find((v) => v.id === item.variant_id);
 
-          if (quantity > variant.stock) {
-            this.app.showNotification(
-              "الكمية المطلوبة غير متوفرة في المخزون",
-              "error"
-            );
+          const qty = parseFloat(quantity);
+          if (Number.isNaN(qty) || qty < 0) {
+            this.app.showNotification("???? ????? ???? ?????", "error");
             return;
           }
 
-          item.quantity = parseInt(quantity);
+          if (variant && qty > variant.stock) {
+            this.app.showNotification("?????? ???????? ?????? ??????? ?? ???????", "error");
+            return;
+          }
+
+          item.quantity = qty;
           item.total_price = item.quantity * item.unit_price;
           this.renderInvoiceItems();
           this.updateInvoiceSummary();
@@ -1163,8 +1201,8 @@
                         <div class="flex justify-between items-center mb-6">
                             <div>
                                 <h2 class="text-2xl font-bold text-slate-900">William Metal</h2>
-                                <p class="text-slate-600">الدار البيضاء، المغرب</p>
-                                <p class="text-slate-600">هاتف: +212522123456</p>
+                                <p class="text-slate-600">قـلعـة مــكونــة، المغرب</p>
+                                <p class="text-slate-600">هاتف: +212676557874</p>
                             </div>
                             <div class="text-left">
                                 <h3 class="text-xl font-bold text-slate-900">فاتورة مبيعات</h3>
@@ -1327,115 +1365,96 @@
         }
 
         generateInvoicePreview(sale) {
+          const invoiceNumber = sale.invoice_number || sale.id || '';
+          const invoiceDate = this.app.formatDate(sale.created_at);
+          const customerName = sale.customer?.name || 'Client';
+          const customerPhone = sale.customer?.phone || '';
+          const customerAddress = sale.customer?.address || '';
+          const subtotal = this.invoiceItems.reduce((sum, item) => sum + item.total_price, 0);
+          const taxRate = parseFloat(document.getElementById('taxRate')?.value || 0);
+          const taxAmount = subtotal * (taxRate / 100);
+          const total = subtotal + taxAmount;
+          const paymentMethod = document.getElementById('paymentMethod')?.value || '';
+
           const previewContent = `
                     <div class="invoice-preview">
                         <div class="flex justify-between items-center mb-6">
-                            <div>
-                                <h2 class="text-2xl font-bold text-slate-900">William Metal</h2>
-                                <p class="text-slate-600">الدار البيضاء، المغرب</p>
-                                <p class="text-slate-600">هاتف: +212522123456</p>
+                            <div class="flex items-center gap-3">
+                                <img src="resources/logo.png" alt="William Metal" class="w-16 h-16 object-contain">
+                                <div>
+                                    <h2 class="text-2xl font-bold text-slate-900">William Metal</h2>
+                                    <p class="text-slate-600">KELAAT MAGOUNA, Maroc</p>
+                                    <p class="text-slate-600">T?l?phone : +212 6 76 55 78 74</p>
+                                    <p class="text-slate-600">ICE : 00333472600029</p>
+                                </div>
                             </div>
                             <div class="text-left">
-                                <h3 class="text-xl font-bold text-slate-900">فاتورة مبيعات</h3>
-                                <p class="text-slate-600">رقم الفاتورة: ${
-                                  sale.invoice_number
-                                }</p>
-                                <p class="text-slate-600">التاريخ: ${this.app.formatDate(
-                                  sale.created_at
-                                )}</p>
+                                <h3 class="text-xl font-bold text-slate-900">Facture de Vente</h3>
+                                <p class="text-slate-600">N? Facture : ${invoiceNumber}</p>
+                                <p class="text-slate-600">Date : ${invoiceDate}</p>
                             </div>
                         </div>
 
                         <div class="border-t border-b border-slate-200 py-4 mb-6">
-                            <h4 class="font-semibold text-slate-900 mb-2">معلومات العميل:</h4>
-                            <p class="text-slate-700">الاسم: ${
-                              sale.customer?.name || "عميل"
-                            }</p>
-                            ${
-                              sale.customer?.phone
-                                ? `<p class="text-slate-700">الهاتف: ${sale.customer.phone}</p>`
-                                : ""
-                            }
-                            ${
-                              sale.customer?.address
-                                ? `<p class="text-slate-700">العنوان: ${sale.customer.address}</p>`
-                                : ""
-                            }
+                            <h4 class="font-semibold text-slate-900 mb-2">Client :</h4>
+                            <p class="text-slate-700">Nom : ${customerName}</p>
+                            ${customerPhone ? `<p class="text-slate-700">T?l?phone : ${customerPhone}</p>` : ''}
+                            ${customerAddress ? `<p class="text-slate-700">Adresse : ${customerAddress}</p>` : ''}
                         </div>
 
                         <table class="w-full mb-6">
                             <thead>
                                 <tr class="border-b border-slate-200">
-                                    <th class="text-right py-2 font-semibold text-slate-900">المنتج</th>
-                                    <th class="text-center py-2 font-semibold text-slate-900">الكمية</th>
-                                    <th class="text-right py-2 font-semibold text-slate-900">السعر</th>
-                                    <th class="text-right py-2 font-semibold text-slate-900">المجموع</th>
+                                    <th class="text-right py-2 font-semibold text-slate-900">Produit</th>
+                                    <th class="text-center py-2 font-semibold text-slate-900">Qt?</th>
+                                    <th class="text-right py-2 font-semibold text-slate-900">Prix</th>
+                                    <th class="text-right py-2 font-semibold text-slate-900">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${sale.items
-                                  .map((item) => {
-                                    const product = this.app.getProduct(
-                                      item.product_id
-                                    );
-                                    return `
-                                        <tr class="border-b border-slate-100">
-                                            <td class="py-2 text-slate-700">${
-                                              product.name_ar
-                                            } - ${item.variant_name}</td>
-                                            <td class="py-2 text-center text-slate-700">${
-                                              item.quantity
-                                            }</td>
-                                            <td class="py-2 text-right text-slate-700">${this.app.formatCurrency(
-                                              item.unit_price
-                                            )}</td>
-                                            <td class="py-2 text-right text-slate-700">${this.app.formatCurrency(
-                                              item.total_price
-                                            )}</td>
-                                        </tr>
-                                    `;
-                                  })
-                                  .join("")}
+                                ${this.invoiceItems
+                                  .map(
+                                    (item) => {
+                                      const product = this.app.getProduct(item.product_id) || {};
+                                      const name = product.nameFr || product.name_fr || product.nameAr || product.name_ar || product.name || item.product_name || 'Produit';
+                                      return `
+                                    <tr class="border-b border-slate-100">
+                                        <td class="py-2 text-slate-700">${name} - ${item.variant_name || ''}</td>
+                                        <td class="py-2 text-center text-slate-700">${item.quantity}</td>
+                                        <td class="py-2 text-right text-slate-700">${this.app.formatCurrency(item.unit_price)}</td>
+                                        <td class="py-2 text-right text-slate-700">${this.app.formatCurrency(item.total_price)}</td>
+                                    </tr>
+                                `;
+                                    }
+                                  )
+                                  .join('')}
                             </tbody>
                         </table>
 
                         <div class="flex justify-end">
                             <div class="w-64">
                                 <div class="flex justify-between mb-2">
-                                    <span class="font-medium text-slate-700">المجموع الفرعي:</span>
-                                    <span class="font-semibold text-slate-900">${this.app.formatCurrency(
-                                      sale.subtotal
-                                    )}</span>
+                                    <span class="font-medium text-slate-700">Sous-total :</span>
+                                    <span class="font-semibold text-slate-900">${this.app.formatCurrency(subtotal)}</span>
                                 </div>
                                 <div class="flex justify-between mb-2">
-                                    <span class="font-medium text-slate-700">الضريبة:</span>
-                                    <span class="font-semibold text-slate-900">${this.app.formatCurrency(
-                                      sale.tax
-                                    )}</span>
+                                    <span class="font-medium text-slate-700">TVA (${taxRate}%):</span>
+                                    <span class="font-semibold text-slate-900">${this.app.formatCurrency(taxAmount)}</span>
                                 </div>
                                 <div class="flex justify-between pt-2 border-t border-slate-200">
-                                    <span class="text-lg font-bold text-slate-900">الإجمالي:</span>
-                                    <span class="text-lg font-bold text-slate-900">${this.app.formatCurrency(
-                                      sale.total
-                                    )}</span>
+                                    <span class="text-lg font-bold text-slate-900">Total :</span>
+                                    <span class="text-lg font-bold text-slate-900">${this.app.formatCurrency(total)}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mt-6 pt-4 border-t border-slate-200">
-                            <p class="text-sm text-slate-600">طريقة الدفع: ${
-                              sale.payment_method === "CASH"
-                                ? "نقداً"
-                                : sale.payment_method === "CREDIT"
-                                ? "آجل"
-                                : "شيك"
-                            }</p>
-                            <p class="text-sm text-slate-600 mt-2">شكراً لثقتكم بنا</p>
+                            <p class="text-sm text-slate-600">Mode de paiement : ${paymentMethod === 'CASH' ? 'Esp?ces' : paymentMethod === 'CREDIT' ? 'Cr?dit' : 'Ch?que'}</p>
+                            <p class="text-sm text-slate-600 mt-2">Merci pour votre confiance.</p>
                         </div>
                     </div>
                 `;
-
-          document.getElementById("invoicePreviewContent").innerHTML =
+document.getElementById("invoicePreviewContent").innerHTML =
             previewContent;
           document.getElementById("invoicePreviewModal").classList.add("show");
         }

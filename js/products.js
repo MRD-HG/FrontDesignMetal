@@ -90,9 +90,11 @@
         </div>
         <div class="p-6">
           <div class="flex items-start justify-between mb-2">
-            <h3 class="text-lg font-semibold text-slate-900 line-clamp-2">${escapeHtml(p.nameAr ?? p.nameFr ?? 'منتج')}</h3>
+            <h3 class="text-lg font-semibold text-slate-900 line-clamp-2">${escapeHtml(p.nameFr ?? 'منتج')}</h3>
             <span class="px-2 py-1 text-xs font-medium rounded-full ${stockColor}">${totalStock} في المخزون</span>
           </div>
+          <h3 class="text-lg font-semibold text-slate-900 line-clamp-2">${escapeHtml(p.nameAr  ?? 'منتج')}</h3>
+
           <p class="text-sm text-slate-600 mb-2">${escapeHtml(p.category ?? '')}</p>
           ${p.description ? `<p class="text-sm text-slate-500 mb-4 line-clamp-2">${escapeHtml(p.description)}</p>` : ''}
           <div class="flex items-center justify-between mb-4">

@@ -428,7 +428,7 @@ async function onSubmitAdjustForm() {
   async function quickUpdateStock(productId, variantId, type) {
     const qty = prompt('أدخل الكمية:');
     if (!qty) return;
-    const n = Number(qty);
+    const n = parseFloat(qty);
     if (isNaN(n) || n <= 0) {
       Utils.showNotification('كمية غير صحيحة', 'error');
       return;

@@ -651,8 +651,8 @@
                 <div class="flex justify-between items-center mb-6">
                     <div>
                         <h2 class="text-2xl font-bold text-slate-900">William Metal</h2>
-                        <p class="text-slate-600">الدار البيضاء، المغرب</p>
-                        <p class="text-slate-600">هاتف: +212522123456</p>
+                        <p class="text-slate-600">قـلعة مـكونــة المغرب</p>
+                        <p class="text-slate-600">هاتف: +212676557678</p>
                     </div>
                     <div class="text-left">
                         <h3 class="text-xl font-bold text-slate-900">طلب شراء</h3>

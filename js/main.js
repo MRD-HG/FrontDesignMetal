@@ -88,8 +88,8 @@ class WilliamMetalApp {
             this.data.settings = {
                 company: {
                     name: 'William Metal',
-                    address: 'الدار البيضاء، المغرب',
-                    phone: '+212522123456',
+                    address: 'قـلعـة مـكــونـة، المغرب',
+                    phone: '+212676557874',
                     email: 'info@williammetal.com',
                     tax_rate: 10,
                     currency: 'MAD'
@@ -124,32 +124,9 @@ class WilliamMetalApp {
     }
 
     loadSampleProducts() {
-        // Load products from the JSON catalog
-        fetch('products_catalog.json')
-            .then(response => {
-                if (!response.ok) throw new Error('catalog missing');
-                return response.json();
-            })
-            .then(products => {
-                this.data.products = products.map((product, index) => ({
-                    id: `prod_${String(index + 1).padStart(3, '0')}`,
-                    ...product,
-                    variants: (product.variants || []).map((variant, vIndex) => ({
-                        ...variant,
-                        id: `var_${String(index + 1).padStart(3, '0')}_${String(vIndex + 1).padStart(3, '0')}`,
-                        price: variant.price || (Math.random() * 100 + 20),
-                        cost: variant.cost || (Math.random() * 50 + 10),
-                        stock: typeof variant.stock === 'number' ? variant.stock : Math.floor(Math.random() * 200),
-                        min_stock: variant.min_stock ?? 20,
-                        max_stock: variant.max_stock ?? 200
-                    })),
-                }));
-                this.saveData();
-            })
-            .catch(err => {
-                console.warn('products_catalog.json not available, using fallback data', err?.message || err);
-                this.createFallbackProducts();
-            });
+        // Directly use fallback data to avoid missing catalog errors
+        this.createFallbackProducts();
+        this.saveData();
     }
 
     createFallbackProducts() {
